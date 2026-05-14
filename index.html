@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-:root{--bg:#FDFAF5;--sur:#FFF;--dark:#1C1916;--muted:#8A8278;--bdr:rgba(28,25,22,0.1);--gold:#9A7B3C;--gl:#F7F0DC;--gd:#7A5E20;--sage:#5A7040;--sl:#EAF0DF;--plum:#50407A;--pl:#F0ECF5;--ruby:#7A2E38;--rl:#FAE8E8;--amb:#C49A30;}
+:root{--bg:#FDFAF5;--sur:#FFF;--dark:#1C1916;--muted:#8A8278;--bdr:rgba(28,25,22,0.1);--gold:#9A7B3C;--gl:#F7F0DC;--gd:#7A5E20;--sage:#5A7040;--sl:#EAF0DF;--plum:#50407A;--pl:#F0ECF5;--ruby:#7A2E38;--rl:#FAE8E8;--amb:#C49A30;--teal:#2A7A6A;--tl:#DFF2EE;}
 body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--dark);font-size:14px;min-height:100vh;}
 .hdr{background:var(--bg);border-bottom:1px solid var(--bdr);padding:12px 16px 0;position:sticky;top:0;z-index:100;}
 .hdr-top{display:flex;align-items:baseline;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
@@ -15,8 +15,8 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--dark
 .hdr-top em{font-size:11px;color:var(--muted);font-family:'Cormorant Garamond',serif;font-style:italic;}
 .badge{background:var(--sl);color:var(--sage);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
 .tab-bar{display:flex;}
-.tb{flex:1;padding:8px 4px 7px;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;font-family:'Noto Sans JP',sans-serif;font-size:11px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;touch-action:manipulation;transition:all .15s;}
-.tb .ti{font-size:17px;}
+.tb{flex:1;padding:8px 2px 7px;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;font-family:'Noto Sans JP',sans-serif;font-size:10px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;touch-action:manipulation;transition:all .15s;}
+.tb .ti{font-size:16px;}
 .tb.on{color:var(--gold);border-bottom-color:var(--gold);font-weight:700;}
 .note-bar{background:var(--sl);padding:7px 14px;font-size:11px;color:var(--sage);display:flex;align-items:center;gap:5px;border-bottom:1px solid rgba(90,112,64,0.12);}
 .fridge-top{padding:10px 14px 6px;display:flex;justify-content:space-between;align-items:center;}
@@ -63,6 +63,24 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--dark
 .chip{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;}
 .cm{background:var(--gl);color:var(--gd);}
 .cs{background:var(--sl);color:var(--sage);}
+/* 栄養バー */
+.nut-row{display:flex;align-items:center;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--bdr);}
+.nut-lbl{font-size:10px;color:var(--muted);width:36px;flex-shrink:0;}
+.nut-bar-bg{flex:1;height:6px;background:rgba(0,0,0,0.07);border-radius:3px;overflow:hidden;}
+.nut-bar{height:100%;border-radius:3px;transition:width .5s ease;}
+.nut-val{font-size:10px;font-weight:700;color:var(--dark);width:36px;text-align:right;flex-shrink:0;}
+.nut-cal{color:var(--amb);background:rgba(196,154,48,0.15);border-radius:8px;padding:3px 8px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:6px;}
+/* 1日合計栄養 */
+.daily-nut{background:var(--sur);border:1px solid var(--bdr);border-radius:14px;padding:12px 14px;margin-bottom:10px;}
+.dn-ttl{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;font-style:italic;margin-bottom:10px;color:var(--dark);}
+.dn-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.dn-card{background:var(--bg);border-radius:10px;padding:10px 12px;text-align:center;}
+.dn-num{font-size:22px;font-weight:700;line-height:1;}
+.dn-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+.dn-bar-wrap{margin-top:6px;}
+.dn-bar-bg{width:100%;height:8px;background:rgba(0,0,0,0.07);border-radius:4px;overflow:hidden;margin-top:4px;}
+.dn-bar{height:100%;border-radius:4px;}
+.cal-c{color:#E8832A;}.pro-c{color:#3A7FBF;}.fat-c{color:#C45A5A;}.car-c{color:#5A9A5A;}
 .rtog{background:none;border:1px solid var(--bdr);color:var(--muted);border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:7px;touch-action:manipulation;}
 .rsteps{display:none;margin-top:7px;padding-top:7px;border-top:1px solid var(--bdr);}
 .rsteps.open{display:block;}
@@ -84,8 +102,24 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--dark
 .tip-t{font-size:12px;color:var(--dark);line-height:1.7;}
 .rtry{width:100%;padding:12px;background:transparent;border:1.5px solid var(--dark);border-radius:12px;color:var(--dark);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;font-style:italic;cursor:pointer;margin-top:8px;touch-action:manipulation;}
 .nomatch{background:var(--sur);border:1px solid var(--bdr);border-radius:14px;padding:20px;text-align:center;color:var(--muted);margin-bottom:10px;}
-.nomatch .ni{font-size:28px;margin-bottom:8px;}
-.nomatch p{font-size:12px;line-height:1.7;}
+/* 買い物リスト */
+.shop-wrap{padding:12px 14px 100px;}
+.shop-ttl{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;font-style:italic;margin-bottom:4px;}
+.shop-sub{font-size:12px;color:var(--muted);margin-bottom:14px;}
+.shop-empty{text-align:center;padding:48px 16px;color:var(--muted);}
+.shop-empty .se-ico{font-size:40px;margin-bottom:12px;}
+.shop-empty p{font-size:13px;line-height:1.7;}
+.shop-cat-ttl{font-size:12px;font-weight:700;color:var(--muted);margin:12px 0 6px;text-transform:uppercase;letter-spacing:0.05em;}
+.shop-item{display:flex;align-items:center;gap:10px;background:var(--sur);border:1px solid var(--bdr);border-radius:10px;padding:10px 12px;margin-bottom:6px;cursor:pointer;touch-action:manipulation;}
+.shop-item.done{opacity:0.45;}
+.shop-cb{width:20px;height:20px;border:2px solid var(--bdr);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;}
+.shop-item.done .shop-cb{background:var(--sage);border-color:var(--sage);}
+.shop-e{font-size:20px;}
+.shop-n{font-size:13px;font-weight:500;flex:1;}
+.shop-item.done .shop-n{text-decoration:line-through;color:var(--muted);}
+.copy-btn{width:100%;margin-top:14px;padding:12px;background:var(--tl);border:1.5px solid var(--teal);border-radius:12px;color:var(--teal);font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;font-style:italic;cursor:pointer;touch-action:manipulation;}
+.clear-btn{width:100%;margin-top:8px;padding:10px;background:transparent;border:1px solid var(--bdr);border-radius:12px;color:var(--muted);font-size:12px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;touch-action:manipulation;}
+/* favs */
 .fwrap{padding:12px 14px 100px;}
 .fttl{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;font-style:italic;margin-bottom:10px;}
 .fcard{background:var(--sur);border:1px solid var(--bdr);border-radius:12px;padding:11px 12px;margin-bottom:8px;display:flex;align-items:flex-start;gap:8px;}
@@ -109,6 +143,7 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--dark
   <div class="tab-bar">
     <button class="tb on" id="tb-fridge" onclick="showTab('fridge')"><span class="ti">🥬</span>冷蔵庫</button>
     <button class="tb" id="tb-menu" onclick="showTab('menu')"><span class="ti">🍽️</span>献立</button>
+    <button class="tb" id="tb-shop" onclick="showTab('shop')"><span class="ti">🛒</span>買い物</button>
     <button class="tb" id="tb-favs" onclick="showTab('favs')"><span class="ti">❤️</span>お気に入り</button>
   </div>
 </div>
@@ -129,7 +164,11 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--dark
     <div id="resultArea"></div>
   </div>
 </div>
+<div id="tab-shop" style="display:none">
+  <div class="shop-wrap" id="shopWrap"></div>
+</div>
 <div id="tab-favs" style="display:none"><div class="fwrap" id="favsWrap"></div></div>
+
 <script>
 const CATS=[
   {id:'veg',name:'🥦 野菜・卵',items:[{id:'tamago',e:'🥚',n:'卵'},{id:'tofu',e:'🫙',n:'豆腐'},{id:'ninjin',e:'🥕',n:'にんじん'},{id:'tamanegi',e:'🧅',n:'玉ねぎ'},{id:'jagaimo',e:'🥔',n:'じゃがいも'},{id:'kyabetsu',e:'🥬',n:'キャベツ'},{id:'hakusai',e:'🥬',n:'白菜'},{id:'negi',e:'🌿',n:'ねぎ'},{id:'tomato',e:'🍅',n:'トマト'},{id:'horenso',e:'🌱',n:'ほうれん草'},{id:'kinoko',e:'🍄',n:'きのこ'},{id:'nasu',e:'🍆',n:'なす'},{id:'kyuri',e:'🥒',n:'きゅうり'},{id:'brocco',e:'🥦',n:'ブロッコリー'},{id:'daikon',e:'🌾',n:'大根'},{id:'avocado',e:'🥑',n:'アボカド'},{id:'corn',e:'🌽',n:'とうもろこし'},{id:'edamame',e:'🫛',n:'枝豆'},{id:'moyashi',e:'🌱',n:'もやし'},{id:'paprika',e:'🫑',n:'パプリカ'}]},
@@ -138,44 +177,46 @@ const CATS=[
   {id:'grain',name:'🍚 主食',items:[{id:'rice',e:'🍚',n:'ごはん'},{id:'pasta',e:'🍝',n:'パスタ'},{id:'bread',e:'🍞',n:'パン'},{id:'udon',e:'🍜',n:'うどん'},{id:'soba',e:'🍜',n:'そば'},{id:'ramen',e:'🍜',n:'ラーメン麺'},{id:'oatmeal',e:'🌾',n:'オートミール'}]},
 ];
 const ALL_ITEMS=CATS.flatMap(c=>c.items);
+
+// cal,p=protein,f=fat,c=carbs (1人前・概算)
 const RECIPES=[
-  {id:'tkr',t:'朝食',n:'卵かけごはん',d:'新鮮な卵をたっぷりかけた和の朝食。シンプルで栄養満点。',r:['tamago','rice'],o:['negi'],s:['ごはんを茶碗によそう','卵を割り入れる','醤油を少量かけてよく混ぜる','お好みでねぎを散らす']},
-  {id:'te',t:'朝食',n:'トースト＆目玉焼き',d:'カリカリトーストと半熟目玉焼きの定番朝食。',r:['bread','tamago'],o:['bacon','butter'],s:['パンをトースターで焼く','フライパンにバターを溶かし目玉焼きを作る','塩こしょうで味を整える','一緒に盛り付ける']},
-  {id:'ft',t:'朝食',n:'フレンチトースト',d:'卵液にたっぷり浸したリッチな朝食。外はカリッと中はふわふわ。',r:['bread','tamago','milk'],o:['butter'],s:['卵・牛乳・砂糖を混ぜ卵液を作る','パンを卵液に10分浸す','バターを熱したフライパンで両面こんがり焼く','粉砂糖やシロップをかけて完成']},
-  {id:'om',t:'朝食',n:'オムレツ',d:'ふんわり卵のオムレツ。具材たっぷりでボリューム満点。',r:['tamago'],o:['milk','butter','cheese','bacon','ham'],s:['卵3個を割りほぐし牛乳・塩を加える','フライパンにバターを熱する','卵液を流し込みへらで大きくかき混ぜる','半熟になったら成形して盛り付ける']},
-  {id:'be',t:'朝食',n:'ベーコンエッグ',d:'香ばしいベーコンと目玉焼きの黄金コンビ。',r:['bacon','tamago'],o:['bread'],s:['フライパンでベーコンをカリカリに焼く','同じフライパンで目玉焼きを作る','塩こしょうで味を整えて盛り付ける']},
-  {id:'oat',t:'朝食',n:'オートミール粥',d:'栄養満点のヘルシー朝食。腹持ちも抜群。',r:['oatmeal'],o:['milk','yogurt'],s:['オートミール1/2カップを鍋に入れる','牛乳または水1カップを加えて中火で煮る','とろみがついたら器に盛る','蜂蜜やフルーツをのせて完成']},
-  {id:'yog',t:'朝食',n:'ヨーグルトボウル',d:'さっぱりヘルシーな朝食。蜂蜜を添えて。',r:['yogurt'],o:[],s:['ヨーグルトを器に盛る','お好みで蜂蜜をかける','フルーツをトッピング','冷たいまま召し上がれ']},
-  {id:'he',t:'朝食',n:'ほうれん草の卵炒め',d:'緑黄色野菜をたっぷり使った栄養バランス抜群の朝食。',r:['horenso','tamago'],o:['negi'],s:['ほうれん草を洗って食べやすく切る','フライパンに油を熱しほうれん草を炒める','卵を割り入れざっくり混ぜる','塩こしょう・醤油で味を整える']},
-  {id:'ch',t:'昼食',n:'チャーハン',d:'パラパラに仕上げた本格炒飯。シンプルな食材で最高の一品。',r:['rice','tamago'],o:['negi','bacon','ham','pork'],s:['卵をご飯に混ぜておく','フライパンを強火で熱し油をひく','卵混じりのご飯を入れ素早く炒める','醤油・塩こしょうで味を整え完成']},
-  {id:'tp',t:'昼食',n:'ツナパスタ',d:'ツナ缶を使った簡単パスタ。うまみたっぷりでやみつきに。',r:['pasta','tuna'],o:['tamanegi','negi','tomato'],s:['パスタを表示通りに茹でる','フライパンにツナ缶（油ごと）を入れ炒める','茹でたパスタを加えよく混ぜる','醤油・塩こしょうで味を整える']},
-  {id:'tomp',t:'昼食',n:'トマトパスタ',d:'完熟トマトの旨みがたっぷり。イタリアン気分の一皿。',r:['pasta','tomato'],o:['tamanegi'],s:['にんにくをオリーブオイルで炒める','玉ねぎを加えしんなりするまで炒める','トマトを加えつぶしながら10分煮込む','茹でたパスタを加えよく絡める']},
-  {id:'ud',t:'昼食',n:'かけうどん',d:'だし香るシンプルうどん。ねぎをたっぷりのせて。',r:['udon'],o:['negi','tamago','kinoko'],s:['だし汁に醤油・みりんで汁を作る','うどんを温める','器に入れて汁を注ぐ','ねぎ・お好みのトッピングをのせる']},
-  {id:'sb',t:'昼食',n:'もりそば',d:'コシのある蕎麦をめんつゆで。さっぱりランチに。',r:['soba'],o:['negi'],s:['そばを表示通りに茹でる','冷水でしめる','めんつゆをつけ汁として用意','ねぎをそえて完成']},
-  {id:'rm',t:'昼食',n:'醤油ラーメン',d:'自家製スープの本格ラーメン。手軽なのに本格的。',r:['ramen'],o:['tamago','negi','pork'],s:['鶏がらスープ+醤油+みりんでスープを作る','麺を茹でる','スープを器に注ぎ麺を盛る','お好みのトッピングをのせる']},
-  {id:'sw',t:'昼食',n:'ハムサンドイッチ',d:'具材たっぷりの食べ応えあるサンドイッチ。',r:['bread','ham'],o:['tomato','kyuri','cheese'],s:['パンにマヨネーズを塗る','ハム・野菜を重ねる','もう一枚のパンで挟む','対角線に切って盛り付ける']},
-  {id:'ts',t:'昼食',n:'ツナサンド',d:'ツナとマヨネーズの黄金コンビ。',r:['bread','tuna'],o:['kyuri','corn'],s:['ツナ缶の汁を切りマヨネーズと混ぜる','お好みでコーンや玉ねぎを加える','パンに塗って挟む','食べやすく切る']},
-  {id:'sl',t:'昼食',n:'ミックスサラダ',d:'彩り豊かな野菜サラダ。ドレッシングで本格的に。',r:['kyabetsu','tomato'],o:['kyuri','corn','avocado','paprika'],s:['野菜を食べやすく切る','冷水にさらしパリッとさせる','水気をよく切る','ドレッシングをかけて完成']},
-  {id:'hiy',t:'昼食',n:'冷ややっこ',d:'シンプルが一番。薬味をたっぷりのせて。',r:['tofu'],o:['negi'],s:['豆腐をパックから出し水切りする','食べやすく切り器に盛る','ねぎをちらす','醤油をかけて完成']},
-  {id:'nj',t:'夕食',n:'肉じゃが',d:'ほっこり懐かしい定番家庭料理。甘辛い煮汁がしみた肉じゃが。',r:['jagaimo','tamanegi'],o:['beef','pork','ninjin'],s:['肉・野菜を食べやすく切る','油で肉を炒め野菜を加える','だし汁・醤油・みりん・砂糖で煮込む','じゃがいもが柔らかくなったら完成']},
-  {id:'ka',t:'夕食',n:'鶏の唐揚げ',d:'外はカリカリ中はジューシー。みんなが大好きな定番おかず。',r:['chicken'],o:['negi'],s:['鶏肉に醤油・みりん・にんにくで下味をつける','30分以上漬け込む','片栗粉をまぶして170℃の油で揚げる','カラッとしたら完成']},
-  {id:'tri',t:'夕食',n:'鶏の照り焼き',d:'甘辛タレが絡む照り焼きチキン。ご飯が進む一品。',r:['chicken','rice'],o:['negi'],s:['鶏肉を一口大に切る','フライパンで皮目から焼く','醤油・みりん・砂糖を合わせたタレを加える','タレが絡んで照りが出たら完成']},
-  {id:'ok',t:'夕食',n:'親子丼',d:'鶏肉と卵のコンビが最高。だし香る本格親子丼。',r:['chicken','tamago','rice'],o:[],s:['鶏肉を一口大に切る','だし汁・醤油・みりんで煮る','溶き卵を2回に分けて流し入れる','半熟で火を止めご飯の上にのせる']},
-  {id:'sg',t:'夕食',n:'豚の生姜焼き',d:'しょうが香る豚肉がご飯に合う！定食屋の定番。',r:['pork'],o:['tamanegi','kyabetsu'],s:['豚肉に醤油・みりん・しょうがで下味をつける','フライパンで豚肉を炒める','玉ねぎを加えしんなりするまで炒める','タレをからめて完成']},
-  {id:'sm',t:'夕食',n:'鮭のムニエル',d:'バターの香りが食欲をそそる本格フレンチ風。',r:['salmon','butter'],o:[],s:['鮭に塩こしょうをふり小麦粉をまぶす','バターを熱したフライパンで両面焼く','レモン汁をかけて香りを出す','パセリを散らして盛り付ける']},
-  {id:'ya',t:'夕食',n:'野菜炒め',d:'シャキシャキ食感が嬉しい手軽な炒め物。栄養バランス抜群。',r:['kyabetsu','moyashi'],o:['ninjin','pork','bacon'],s:['野菜を食べやすく切る','強火で熱したフライパンに油をひく','肉を炒め野菜を加えて素早く炒める','塩こしょう・醤油で味を整える']},
-  {id:'mb',t:'夕食',n:'麻婆豆腐',d:'ピリ辛旨みが絶品。豆腐がとろとろの本格中華。',r:['tofu','pork'],o:['negi'],s:['豆腐を2cm角に切り水切りする','フライパンで豚ひき肉を炒める','豆板醤・にんにく・しょうがを加える','豆腐とだし汁を加え片栗粉でとろみをつける']},
-  {id:'eg',t:'夕食',n:'えびのガーリックソテー',d:'にんにく香るえびのソテー。お酒に合う一品。',r:['shrimp'],o:[],s:['えびの背わたを取り下処理する','フライパンにオリーブオイルとにんにくを熱す','えびを加え両面ソテーする','塩こしょうで味を整える']},
-  {id:'hb',t:'夕食',n:'ほたてのバター醤油',d:'甘みのあるほたてにバター醤油が絡む贅沢な一皿。',r:['hotate','butter'],o:[],s:['ほたてに塩こしょうをふる','バターを熱したフライパンで両面焼く','醤油を回しかける','ねぎを散らして完成']},
-  {id:'gr',t:'夕食',n:'グラタン',d:'とろとろチーズが食欲そそるフレンチの定番。',r:['milk','cheese'],o:['butter','chicken','tamanegi'],s:['玉ねぎ・鶏肉をバターで炒める','小麦粉を加え牛乳を少しずつ加えてホワイトソースを作る','耐熱皿に盛りチーズをかける','200℃のオーブンで15分焼く']},
-  {id:'hg',t:'夕食',n:'ハンバーグ',d:'ジューシーな手作りハンバーグ。',r:['beef'],o:['tamanegi','milk'],s:['玉ねぎをみじん切りにして炒め冷ます','ひき肉に玉ねぎ・卵・パン粉・塩こしょうを混ぜる','成形してフライパンで両面焼く','ソースをかけて完成']},
-  {id:'cb',t:'夕食',n:'カルボナーラ',d:'卵とチーズの濃厚クリーミーパスタ。本格イタリアン。',r:['pasta','bacon','tamago'],o:['cream','cheese'],s:['パスタを表示通りに茹でる','ベーコンをフライパンで炒める','卵・チーズ・塩こしょうを混ぜソースを作る','火を止めパスタに絡め余熱でまとめる']},
-  {id:'bp',t:'夕食',n:'ブロッコリーベーコンパスタ',d:'野菜たっぷりのヘルシーパスタ。',r:['pasta','brocco','bacon'],o:[],s:['ブロッコリーを小房に分け茹でる','ベーコンをオリーブオイルとにんにくで炒める','茹でたパスタとブロッコリーを加える','塩こしょうで仕上げる']},
-  {id:'nm',t:'夕食',n:'なすの味噌炒め',d:'甘辛の味噌がなすに絡む和の定番おかず。',r:['nasu','pork'],o:[],s:['なすを乱切りにして塩水にさらす','フライパンで豚肉を炒める','なすを加えしんなりするまで炒める','味噌・みりん・砂糖で炒め合わせる']},
-  {id:'bj',t:'夕食',n:'豚汁',d:'野菜たっぷりの栄養満点豚汁。体が温まる。',r:['pork','daikon'],o:['ninjin','tamanegi','jagaimo','tofu'],s:['豚肉と野菜を食べやすく切る','鍋で豚肉を炒め野菜を加える','水とだしを加え煮込む','味噌を溶いて完成']},
-  {id:'sc',t:'夕食',n:'さば缶の味噌炒め',d:'さば缶で手軽に作れる本格おかず。DHA豊富。',r:['saba'],o:['negi'],s:['さば缶を汁ごとフライパンに入れる','生姜・みりん・醤油を加える','中火で汁気がなくなるまで炒める','ねぎを散らして完成']},
-  {id:'bs',t:'夕食',n:'ビーフシチュー',d:'牛肉がとろける本格シチュー。寒い夜にぴったり。',r:['beef','tamanegi','ninjin'],o:['jagaimo','butter'],s:['牛肉と野菜を大きめに切る','バターで肉を焼き色をつける','コンソメで煮込む','市販のルーを加え仕上げる']},
-  {id:'kr',t:'夕食',n:'きのこリゾット',d:'きのこの旨みたっぷりのイタリアン。',r:['kinoko','rice'],o:['butter','cheese'],s:['きのこをスライスしバターで炒める','米を洗わず加え油でコーティング','スープを少しずつ加えながら炒め煮する','チーズを加えて仕上げる']},
+  {id:'tkr',t:'朝食',n:'卵かけごはん',d:'新鮮な卵をたっぷりかけた和の朝食。シンプルで栄養満点。',r:['tamago','rice'],o:['negi'],s:['ごはんを茶碗によそう','卵を割り入れる','醤油を少量かけてよく混ぜる','お好みでねぎを散らす'],nut:{cal:400,p:15,f:8,c:65}},
+  {id:'te',t:'朝食',n:'トースト＆目玉焼き',d:'カリカリトーストと半熟目玉焼きの定番朝食。',r:['bread','tamago'],o:['bacon','butter'],s:['パンをトースターで焼く','フライパンにバターを溶かし目玉焼きを作る','塩こしょうで味を整える','一緒に盛り付ける'],nut:{cal:350,p:14,f:16,c:38}},
+  {id:'ft',t:'朝食',n:'フレンチトースト',d:'卵液にたっぷり浸したリッチな朝食。外はカリッと中はふわふわ。',r:['bread','tamago','milk'],o:['butter'],s:['卵・牛乳・砂糖を混ぜ卵液を作る','パンを卵液に10分浸す','バターを熱したフライパンで両面こんがり焼く','お好みでシロップをかけて完成'],nut:{cal:420,p:13,f:15,c:58}},
+  {id:'om',t:'朝食',n:'オムレツ',d:'ふんわり卵のオムレツ。具材たっぷりでボリューム満点。',r:['tamago'],o:['milk','butter','cheese','bacon','ham'],s:['卵3個を割りほぐし牛乳・塩を加える','フライパンにバターを熱する','卵液を流し込みへらで大きくかき混ぜる','半熟になったら成形して盛り付ける'],nut:{cal:280,p:18,f:20,c:4}},
+  {id:'be',t:'朝食',n:'ベーコンエッグ',d:'香ばしいベーコンと目玉焼きの黄金コンビ。',r:['bacon','tamago'],o:['bread'],s:['フライパンでベーコンをカリカリに焼く','同じフライパンで目玉焼きを作る','塩こしょうで味を整えて盛り付ける'],nut:{cal:320,p:18,f:24,c:2}},
+  {id:'oat',t:'朝食',n:'オートミール粥',d:'栄養満点のヘルシー朝食。腹持ちも抜群。',r:['oatmeal'],o:['milk','yogurt'],s:['オートミール1/2カップを鍋に入れる','牛乳1カップを加えて中火で煮る','とろみがついたら器に盛る','蜂蜜やフルーツをのせて完成'],nut:{cal:250,p:9,f:5,c:42}},
+  {id:'yog',t:'朝食',n:'ヨーグルトボウル',d:'さっぱりヘルシーな朝食。蜂蜜を添えて。',r:['yogurt'],o:[],s:['ヨーグルトを器に盛る','お好みで蜂蜜をかける','フルーツをトッピング','冷たいまま召し上がれ'],nut:{cal:150,p:8,f:4,c:20}},
+  {id:'he',t:'朝食',n:'ほうれん草の卵炒め',d:'緑黄色野菜をたっぷり使った栄養バランス抜群の朝食。',r:['horenso','tamago'],o:['negi'],s:['ほうれん草を洗って食べやすく切る','フライパンに油を熱しほうれん草を炒める','卵を割り入れざっくり混ぜる','塩こしょう・醤油で味を整える'],nut:{cal:200,p:14,f:12,c:6}},
+  {id:'ch',t:'昼食',n:'チャーハン',d:'パラパラに仕上げた本格炒飯。シンプルな食材で最高の一品。',r:['rice','tamago'],o:['negi','bacon','ham','pork'],s:['卵をご飯に混ぜておく','フライパンを強火で熱し油をひく','卵混じりのご飯を入れ素早く炒める','醤油・塩こしょうで味を整え完成'],nut:{cal:520,p:14,f:16,c:78}},
+  {id:'tp',t:'昼食',n:'ツナパスタ',d:'ツナ缶を使った簡単パスタ。うまみたっぷりでやみつきに。',r:['pasta','tuna'],o:['tamanegi','negi','tomato'],s:['パスタを表示通りに茹でる','フライパンにツナ缶（油ごと）を入れ炒める','茹でたパスタを加えよく混ぜる','醤油・塩こしょうで味を整える'],nut:{cal:480,p:22,f:10,c:74}},
+  {id:'tomp',t:'昼食',n:'トマトパスタ',d:'完熟トマトの旨みがたっぷり。イタリアン気分の一皿。',r:['pasta','tomato'],o:['tamanegi'],s:['にんにくをオリーブオイルで炒める','玉ねぎを加えしんなりするまで炒める','トマトを加えつぶしながら10分煮込む','茹でたパスタを加えよく絡める'],nut:{cal:450,p:14,f:8,c:82}},
+  {id:'ud',t:'昼食',n:'かけうどん',d:'だし香るシンプルうどん。ねぎをたっぷりのせて。',r:['udon'],o:['negi','tamago','kinoko'],s:['だし汁に醤油・みりんで汁を作る','うどんを温める','器に入れて汁を注ぐ','ねぎ・お好みのトッピングをのせる'],nut:{cal:320,p:10,f:2,c:65}},
+  {id:'sb',t:'昼食',n:'もりそば',d:'コシのある蕎麦をめんつゆで。さっぱりランチに。',r:['soba'],o:['negi'],s:['そばを表示通りに茹でる','冷水でしめる','めんつゆをつけ汁として用意','ねぎをそえて完成'],nut:{cal:280,p:12,f:2,c:54}},
+  {id:'rm',t:'昼食',n:'醤油ラーメン',d:'自家製スープの本格ラーメン。手軽なのに本格的。',r:['ramen'],o:['tamago','negi','pork'],s:['鶏がらスープ+醤油+みりんでスープを作る','麺を茹でる','スープを器に注ぎ麺を盛る','お好みのトッピングをのせる'],nut:{cal:480,p:18,f:12,c:72}},
+  {id:'sw',t:'昼食',n:'ハムサンドイッチ',d:'具材たっぷりの食べ応えあるサンドイッチ。',r:['bread','ham'],o:['tomato','kyuri','cheese'],s:['パンにマヨネーズを塗る','ハム・野菜を重ねる','もう一枚のパンで挟む','対角線に切って盛り付ける'],nut:{cal:380,p:16,f:14,c:46}},
+  {id:'ts',t:'昼食',n:'ツナサンド',d:'ツナとマヨネーズの黄金コンビ。',r:['bread','tuna'],o:['kyuri','corn'],s:['ツナ缶の汁を切りマヨネーズと混ぜる','コーンや玉ねぎを加える','パンに塗って挟む','食べやすく切る'],nut:{cal:360,p:18,f:12,c:42}},
+  {id:'sl',t:'昼食',n:'ミックスサラダ',d:'彩り豊かな野菜サラダ。ドレッシングで本格的に。',r:['kyabetsu','tomato'],o:['kyuri','corn','avocado','paprika'],s:['野菜を食べやすく切る','冷水にさらしパリッとさせる','水気をよく切る','ドレッシングをかけて完成'],nut:{cal:120,p:3,f:6,c:14}},
+  {id:'hiy',t:'昼食',n:'冷ややっこ',d:'シンプルが一番。薬味をたっぷりのせて。',r:['tofu'],o:['negi'],s:['豆腐をパックから出し水切りする','食べやすく切り器に盛る','ねぎをちらす','醤油をかけて完成'],nut:{cal:80,p:7,f:4,c:3}},
+  {id:'nj',t:'夕食',n:'肉じゃが',d:'ほっこり懐かしい定番家庭料理。甘辛い煮汁がしみた肉じゃが。',r:['jagaimo','tamanegi'],o:['beef','pork','ninjin'],s:['肉・野菜を食べやすく切る','油で肉を炒め野菜を加える','だし汁・醤油・みりん・砂糖で煮込む','じゃがいもが柔らかくなったら完成'],nut:{cal:380,p:18,f:12,c:48}},
+  {id:'ka',t:'夕食',n:'鶏の唐揚げ',d:'外はカリカリ中はジューシー。みんなが大好きな定番おかず。',r:['chicken'],o:['negi'],s:['鶏肉に醤油・みりん・にんにくで下味をつける','30分以上漬け込む','片栗粉をまぶして170℃の油で揚げる','カラッとしたら完成'],nut:{cal:480,p:28,f:26,c:28}},
+  {id:'tri',t:'夕食',n:'鶏の照り焼き',d:'甘辛タレが絡む照り焼きチキン。ご飯が進む一品。',r:['chicken','rice'],o:['negi'],s:['鶏肉を一口大に切る','フライパンで皮目から焼く','醤油・みりん・砂糖を合わせたタレを加える','タレが絡んで照りが出たら完成'],nut:{cal:520,p:32,f:14,c:58}},
+  {id:'ok',t:'夕食',n:'親子丼',d:'鶏肉と卵のコンビが最高。だし香る本格親子丼。',r:['chicken','tamago','rice'],o:[],s:['鶏肉を一口大に切る','だし汁・醤油・みりんで煮る','溶き卵を2回に分けて流し入れる','半熟で火を止めご飯の上にのせる'],nut:{cal:580,p:30,f:16,c:72}},
+  {id:'sg',t:'夕食',n:'豚の生姜焼き',d:'しょうが香る豚肉がご飯に合う！定食屋の定番。',r:['pork'],o:['tamanegi','kyabetsu'],s:['豚肉に醤油・みりん・しょうがで下味をつける','フライパンで豚肉を炒める','玉ねぎを加えしんなりするまで炒める','タレをからめて完成'],nut:{cal:420,p:24,f:22,c:18}},
+  {id:'sm',t:'夕食',n:'鮭のムニエル',d:'バターの香りが食欲をそそる本格フレンチ風。',r:['salmon','butter'],o:[],s:['鮭に塩こしょうをふり小麦粉をまぶす','バターを熱したフライパンで両面焼く','レモン汁をかけて香りを出す','パセリを散らして盛り付ける'],nut:{cal:340,p:28,f:18,c:8}},
+  {id:'ya',t:'夕食',n:'野菜炒め',d:'シャキシャキ食感が嬉しい手軽な炒め物。栄養バランス抜群。',r:['kyabetsu','moyashi'],o:['ninjin','pork','bacon'],s:['野菜を食べやすく切る','強火で熱したフライパンに油をひく','肉を炒め野菜を加えて素早く炒める','塩こしょう・醤油で味を整える'],nut:{cal:280,p:16,f:14,c:18}},
+  {id:'mb',t:'夕食',n:'麻婆豆腐',d:'ピリ辛旨みが絶品。豆腐がとろとろの本格中華。',r:['tofu','pork'],o:['negi'],s:['豆腐を2cm角に切り水切りする','フライパンで豚ひき肉を炒める','豆板醤・にんにく・しょうがを加える','豆腐とだし汁を加え片栗粉でとろみをつける'],nut:{cal:320,p:18,f:18,c:16}},
+  {id:'eg',t:'夕食',n:'えびのガーリックソテー',d:'にんにく香るえびのソテー。お酒に合う一品。',r:['shrimp'],o:[],s:['えびの背わたを取り下処理する','フライパンにオリーブオイルとにんにくを熱す','えびを加え両面ソテーする','塩こしょうで味を整える'],nut:{cal:200,p:22,f:8,c:6}},
+  {id:'hb',t:'夕食',n:'ほたてのバター醤油',d:'甘みのあるほたてにバター醤油が絡む贅沢な一皿。',r:['hotate','butter'],o:[],s:['ほたてに塩こしょうをふる','バターを熱したフライパンで両面焼く','醤油を回しかける','ねぎを散らして完成'],nut:{cal:240,p:20,f:12,c:10}},
+  {id:'gr',t:'夕食',n:'グラタン',d:'とろとろチーズが食欲そそるフレンチの定番。',r:['milk','cheese'],o:['butter','chicken','tamanegi'],s:['玉ねぎ・鶏肉をバターで炒める','小麦粉を加え牛乳を少しずつ加えてホワイトソースを作る','耐熱皿に盛りチーズをかける','200℃のオーブンで15分焼く'],nut:{cal:480,p:18,f:26,c:42}},
+  {id:'hg',t:'夕食',n:'ハンバーグ',d:'ジューシーな手作りハンバーグ。',r:['beef'],o:['tamanegi','milk'],s:['玉ねぎをみじん切りにして炒め冷ます','ひき肉に玉ねぎ・卵・パン粉・塩こしょうを混ぜる','成形してフライパンで両面焼く','ソースをかけて完成'],nut:{cal:520,p:28,f:32,c:18}},
+  {id:'cb',t:'夕食',n:'カルボナーラ',d:'卵とチーズの濃厚クリーミーパスタ。本格イタリアン。',r:['pasta','bacon','tamago'],o:['cream','cheese'],s:['パスタを表示通りに茹でる','ベーコンをフライパンで炒める','卵・チーズ・塩こしょうを混ぜソースを作る','火を止めパスタに絡め余熱でまとめる'],nut:{cal:680,p:24,f:34,c:72}},
+  {id:'bp',t:'夕食',n:'ブロッコリーベーコンパスタ',d:'野菜たっぷりのヘルシーパスタ。',r:['pasta','brocco','bacon'],o:[],s:['ブロッコリーを小房に分け茹でる','ベーコンをオリーブオイルとにんにくで炒める','茹でたパスタとブロッコリーを加える','塩こしょうで仕上げる'],nut:{cal:520,p:22,f:18,c:68}},
+  {id:'nm',t:'夕食',n:'なすの味噌炒め',d:'甘辛の味噌がなすに絡む和の定番おかず。',r:['nasu','pork'],o:[],s:['なすを乱切りにして塩水にさらす','フライパンで豚肉を炒める','なすを加えしんなりするまで炒める','味噌・みりん・砂糖で炒め合わせる'],nut:{cal:280,p:14,f:14,c:22}},
+  {id:'bj',t:'夕食',n:'豚汁',d:'野菜たっぷりの栄養満点豚汁。体が温まる。',r:['pork','daikon'],o:['ninjin','tamanegi','jagaimo','tofu'],s:['豚肉と野菜を食べやすく切る','鍋で豚肉を炒め野菜を加える','水とだしを加え煮込む','味噌を溶いて完成'],nut:{cal:240,p:16,f:10,c:20}},
+  {id:'sc2',t:'夕食',n:'さば缶の味噌炒め',d:'さば缶で手軽に作れる本格おかず。DHA豊富。',r:['saba'],o:['negi'],s:['さば缶を汁ごとフライパンに入れる','生姜・みりん・醤油を加える','中火で汁気がなくなるまで炒める','ねぎを散らして完成'],nut:{cal:320,p:24,f:18,c:12}},
+  {id:'bs',t:'夕食',n:'ビーフシチュー',d:'牛肉がとろける本格シチュー。寒い夜にぴったり。',r:['beef','tamanegi','ninjin'],o:['jagaimo','butter'],s:['牛肉と野菜を大きめに切る','バターで肉を焼き色をつける','コンソメで煮込む','市販のルーを加え仕上げる'],nut:{cal:480,p:28,f:22,c:38}},
+  {id:'kr',t:'夕食',n:'きのこリゾット',d:'きのこの旨みたっぷりのイタリアン。',r:['kinoko','rice'],o:['butter','cheese'],s:['きのこをスライスしバターで炒める','米を洗わず加え油でコーティング','スープを少しずつ加えながら炒め煮する','チーズを加えて仕上げる'],nut:{cal:420,p:10,f:14,c:64}},
 ];
 const SAUCES=[
   {id:'vg',n:'クラシック・ヴィネグレット',cat:'フランス風',d:'サラダや魚料理に。シンプルで万能なフランスの基本ソース。',nd:[],op:['tamanegi'],s:['ディジョンマスタード小さじ1、酢大さじ2を混ぜる','オリーブオイル大さじ6を少しずつ加えながら乳化させる','塩こしょうで味を整える','エシャロット（玉ねぎ）をみじん切りで加えても']},
@@ -197,12 +238,11 @@ function matchR(ids,type){
     .sort((a,b)=>(b.rm+b.om*0.3)-(a.rm+a.om*0.3)||Math.random()-0.5);
 }
 function matchS(ids){
-  return SAUCES
-    .map(s=>({...s,ok:s.nd.length===0||s.nd.every(x=>ids.includes(x)),sc:(s.nd.length===0?50:80)+(s.op||[]).filter(x=>ids.includes(x)).length*10}))
+  return SAUCES.map(s=>({...s,ok:s.nd.length===0||s.nd.every(x=>ids.includes(x)),sc:(s.nd.length===0?50:80)+(s.op||[]).filter(x=>ids.includes(x)).length*10}))
     .filter(s=>s.ok).sort((a,b)=>b.sc-a.sc||Math.random()-0.5).slice(0,3);
 }
 
-let activeCat='veg',fridge={},favMeals=[],favSauces=[],lastR=null,lastSnap={};
+let activeCat='veg',fridge={},favMeals=[],favSauces=[],lastR=null,lastSnap={},shopDone={};
 const lg=(k,fb)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):fb;}catch{return fb;}};
 const ls=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}};
 
@@ -211,11 +251,12 @@ function init(){
   renderCatTabs();renderGrid();updateBtn();
 }
 function showTab(t){
-  ['fridge','menu','favs'].forEach(x=>{
+  ['fridge','menu','shop','favs'].forEach(x=>{
     document.getElementById('tab-'+x).style.display=x===t?'block':'none';
     document.getElementById('tb-'+x).classList.toggle('on',x===t);
   });
   if(t==='menu'){renderSum();if(lastR)renderResult(lastR);}
+  if(t==='shop')renderShop();
   if(t==='favs')renderFavs();
 }
 function renderCatTabs(){
@@ -262,24 +303,149 @@ function generate(){
   const a=matchR(ids,'朝食'),b=matchR(ids,'昼食'),c=matchR(ids,'夕食'),s=matchS(ids);
   const tips=['旬の食材を積極的に使いましょう！','シンプルな調理法ほど素材の味が引き立ちます。','盛り付けに気を使うだけで食卓が華やかに。','下ごしらえをしっかりすると仕上がりが格段に違います。','食材を無駄なく使い切るのがプロの証。'];
   lastR={meals:[a[0],b[0],c[0]].filter(Boolean),sauces:s,tip:tips[Math.floor(Math.random()*tips.length)],nm:['朝食','昼食','夕食'].filter(t=>!([a,b,c][['朝食','昼食','夕食'].indexOf(t)].length))};
+  shopDone={};
   showTab('menu');renderResult(lastR);
 }
+
+function nutBar(val,max,color){
+  const pct=Math.min(100,Math.round(val/max*100));
+  return `<div class="nut-bar-bg"><div class="nut-bar" style="width:${pct}%;background:${color}"></div></div>`;
+}
+
 function renderResult(d){
   const ra=document.getElementById('resultArea');if(!ra)return;
   const mi={朝食:'🌅',昼食:'☀️',夕食:'🌙'};
   const getItem=id=>ALL_ITEMS.find(i=>i.id===id);
+
+  // 1日合計栄養
+  const tot=d.meals.reduce((acc,m)=>{const n=m.nut||{};acc.cal+=(n.cal||0);acc.p+=(n.p||0);acc.f+=(n.f||0);acc.c+=(n.c||0);return acc;},{cal:0,p:0,f:0,c:0});
+
+  const dailyNut=`<div class="daily-nut">
+    <div class="dn-ttl">✦ 1日の栄養バランス</div>
+    <div class="dn-grid">
+      <div class="dn-card">
+        <div class="dn-num cal-c">${tot.cal}</div>
+        <div class="dn-sub">カロリー (kcal)</div>
+        <div class="dn-bar-wrap"><div style="font-size:9px;color:var(--muted)">目標 2000kcal</div><div class="dn-bar-bg"><div class="dn-bar" style="width:${Math.min(100,Math.round(tot.cal/2000*100))}%;background:#E8832A"></div></div></div>
+      </div>
+      <div class="dn-card">
+        <div class="dn-num pro-c">${tot.p}g</div>
+        <div class="dn-sub">たんぱく質</div>
+        <div class="dn-bar-wrap"><div style="font-size:9px;color:var(--muted)">目標 60g</div><div class="dn-bar-bg"><div class="dn-bar" style="width:${Math.min(100,Math.round(tot.p/60*100))}%;background:#3A7FBF"></div></div></div>
+      </div>
+      <div class="dn-card">
+        <div class="dn-num fat-c">${tot.f}g</div>
+        <div class="dn-sub">脂質</div>
+        <div class="dn-bar-wrap"><div style="font-size:9px;color:var(--muted)">目標 60g</div><div class="dn-bar-bg"><div class="dn-bar" style="width:${Math.min(100,Math.round(tot.f/60*100))}%;background:#C45A5A"></div></div></div>
+      </div>
+      <div class="dn-card">
+        <div class="dn-num car-c">${tot.c}g</div>
+        <div class="dn-sub">炭水化物</div>
+        <div class="dn-bar-wrap"><div style="font-size:9px;color:var(--muted)">目標 250g</div><div class="dn-bar-bg"><div class="dn-bar" style="width:${Math.min(100,Math.round(tot.c/250*100))}%;background:#5A9A5A"></div></div></div>
+      </div>
+    </div>
+  </div>`;
+
   ra.innerHTML=`<div class="res-ttl">✦ 今日の献立</div>`
   +d.meals.map((m,i)=>{
     const rid='r'+i;const isFav=favMeals.some(f=>f.n===m.n);
     const steps=(m.s||[]).map((st,j)=>`<div class="step"><div class="snum">${j+1}</div><div class="stxt">${st}</div></div>`).join('');
     const usedChips=[...new Set([...m.r,...(m.o||[])])].filter(id=>fridge[id]).map(id=>{const it=getItem(id);return it?`<span class="chip cm">${it.e} ${it.n}</span>`:''}).join('');
-    return `<div class="mc"><div class="mc-hdr h-${m.t}"><div class="mc-left"><span class="mbdg b-${m.t}">${mi[m.t]} ${m.t}</span><span class="mname">${m.n}</span></div><button class="fb" id="fm${i}" onclick="tfm(${i})">${isFav?'❤️':'🤍'}</button></div><div class="mcb"><p class="mdsc">${m.d}</p><div class="chips">${usedChips}</div>${steps?`<button class="rtog" id="rtb${rid}" onclick="tog('${rid}','rtb${rid}','📋 作り方を見る','▲ 閉じる')">📋 作り方を見る</button><div class="rsteps" id="${rid}">${steps}</div>`:''}</div></div>`;
+    const nt=m.nut||{};
+    const nutHtml=`<div style="margin-top:8px">
+      <span class="nut-cal">🔥 ${nt.cal||0} kcal</span>
+      <div class="nut-row"><span class="nut-lbl">🥩 P</span>${nutBar(nt.p||0,60,'#3A7FBF')}<span class="nut-val">${nt.p||0}g</span></div>
+      <div class="nut-row"><span class="nut-lbl">🫙 F</span>${nutBar(nt.f||0,60,'#C45A5A')}<span class="nut-val">${nt.f||0}g</span></div>
+      <div class="nut-row"><span class="nut-lbl">🌾 C</span>${nutBar(nt.c||0,250,'#5A9A5A')}<span class="nut-val">${nt.c||0}g</span></div>
+    </div>`;
+    return `<div class="mc"><div class="mc-hdr h-${m.t}"><div class="mc-left"><span class="mbdg b-${m.t}">${mi[m.t]} ${m.t}</span><span class="mname">${m.n}</span></div><button class="fb" id="fm${i}" onclick="tfm(${i})">${isFav?'❤️':'🤍'}</button></div><div class="mcb"><p class="mdsc">${m.d}</p><div class="chips">${usedChips}</div>${nutHtml}${steps?`<button class="rtog" id="rtb${rid}" onclick="tog('${rid}','rtb${rid}','📋 作り方を見る','▲ 閉じる')">📋 作り方を見る</button><div class="rsteps" id="${rid}">${steps}</div>`:''}</div></div>`;
   }).join('')
-  +(d.nm&&d.nm.length?`<div class="nomatch"><div class="ni">🔍</div><p><b>${d.nm.join('・')}</b>に合うレシピが見つかりませんでした。<br>もっと食材を選ぶと提案が増えます！</p></div>`:'')
-  +(d.sauces&&d.sauces.length?`<div class="sblk"><div class="sbhdr"><span class="sbttl">✦ 今日のソース</span></div>${d.sauces.map((s,i)=>{const sid='sc'+i;const isFav=favSauces.some(f=>f.n===s.n);const ss=(s.s||[]).map((st,j)=>`<div class="step"><div class="snum">${j+1}</div><div class="stxt">${st}</div></div>`).join('');return`<div class="si"><div class="sirow"><div><div class="sn">${s.n}</div><div class="scat">${s.cat}</div></div><button class="fb" id="fs${i}" onclick="tfs(${i})">${isFav?'❤️':'🤍'}</button></div><p class="sdsc">${s.d}</p>${ss?`<button class="rtog" id="rtb${sid}" onclick="tog('${sid}','rtb${sid}','📋 作り方','▲ 閉じる')" style="border-color:var(--sage);color:var(--sage)">📋 作り方</button><div class="rsteps" id="${sid}">${ss}</div>`:''}</div>`;}).join('')}</div>`:''  )
+  +(d.nm&&d.nm.length?`<div class="nomatch"><p>🔍 <b>${d.nm.join('・')}</b>に合うレシピが見つかりませんでした。食材を増やすと提案が増えます！</p></div>`:'')
+  +dailyNut
+  +(d.sauces&&d.sauces.length?`<div class="sblk"><div class="sbhdr"><span class="sbttl">✦ 今日のソース</span></div>${d.sauces.map((s,i)=>{const sid='sc'+i;const isFav=favSauces.some(f=>f.n===s.n);const ss=(s.s||[]).map((st,j)=>`<div class="step"><div class="snum">${j+1}</div><div class="stxt">${st}</div></div>`).join('');return`<div class="si"><div class="sirow"><div><div class="sn">${s.n}</div><div class="scat">${s.cat}</div></div><button class="fb" id="fs${i}" onclick="tfs(${i})">${isFav?'❤️':'🤍'}</button></div><p class="sdsc">${s.d}</p>${ss?`<button class="rtog" id="rtb${sid}" onclick="tog('${sid}','rtb${sid}','📋 作り方','▲ 閉じる')" style="border-color:var(--sage);color:var(--sage)">📋 作り方</button><div class="rsteps" id="${sid}">${ss}</div>`:''}</div>`;}).join('')}</div>`:'')
   +(d.tip?`<div class="tip"><div class="tip-l">✦ Chef's Note</div><p class="tip-t">${d.tip}</p></div>`:'')
-  +`<button class="dbtn" onclick="deduct()">🗑 使った食材を冷蔵庫から差し引く</button><button class="rtry" onclick="generate()">✦ 別の献立を提案してもらう</button>`;
+  +`<button class="dbtn" onclick="deduct()">🗑 使った食材を冷蔵庫から差し引く</button>
+  <button class="rtry" onclick="generate()">✦ 別の献立を提案してもらう</button>
+  <button class="rtry" onclick="showTab('shop')" style="margin-top:8px;border-color:var(--teal);color:var(--teal)">🛒 買い物リストを見る</button>`;
 }
+
+// ─── 買い物リスト ───
+function renderShop(){
+  const w=document.getElementById('shopWrap');
+  if(!lastR||!lastR.meals.length){
+    w.innerHTML=`<div class="shop-ttl">🛒 買い物リスト</div><div class="shop-empty"><div class="se-ico">🛒</div><p>先に献立を生成してください。<br>不足している食材を自動でリストアップします！</p></div>`;
+    return;
+  }
+  const fridgeIds=Object.keys(fridge);
+  const needed={};
+  lastR.meals.forEach(m=>{
+    [...m.r,...(m.o||[])].forEach(id=>{
+      if(!fridgeIds.includes(id)){
+        const item=ALL_ITEMS.find(i=>i.id===id);
+        if(item&&!needed[id])needed[id]={item,required:m.r.includes(id)};
+      }
+    });
+  });
+
+  const ids=Object.keys(needed);
+  if(!ids.length){
+    w.innerHTML=`<div class="shop-ttl">🛒 買い物リスト</div><div class="shop-empty"><div class="se-ico">✅</div><p>全ての食材が冷蔵庫にあります！<br>買い物不要です。</p></div>`;
+    return;
+  }
+
+  // カテゴリ別に分類
+  const bycat={};
+  CATS.forEach(cat=>{
+    const catItems=ids.filter(id=>cat.items.find(i=>i.id===id));
+    if(catItems.length)bycat[cat.name]=catItems;
+  });
+
+  const doneCount=ids.filter(id=>shopDone[id]).length;
+  let html=`<div class="shop-ttl">🛒 買い物リスト</div>
+    <div class="shop-sub">${doneCount}/${ids.length}個 完了 — 今日の献立に必要な食材</div>`;
+
+  Object.entries(bycat).forEach(([catName,catIds])=>{
+    html+=`<div class="shop-cat-ttl">${catName}</div>`;
+    catIds.forEach(id=>{
+      const{item,required}=needed[id];
+      const done=shopDone[id];
+      html+=`<div class="shop-item ${done?'done':''}" onclick="toggleShop('${id}')">
+        <div class="shop-cb">${done?'<svg width="12" height="12" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3" stroke="#fff" stroke-width="2" fill="none"/></svg>':''}</div>
+        <span class="shop-e">${item.e}</span>
+        <span class="shop-n">${item.n}${required?'<span style="color:var(--ruby);font-size:9px;margin-left:4px">必須</span>':''}</span>
+      </div>`;
+    });
+  });
+
+  html+=`<button class="copy-btn" onclick="copyShop()">📋 リストをコピー</button>
+    <button class="clear-btn" onclick="clearShopDone()">チェックをリセット</button>`;
+  w.innerHTML=html;
+}
+
+function toggleShop(id){
+  shopDone[id]=!shopDone[id];renderShop();
+}
+function clearShopDone(){shopDone={};renderShop();}
+function copyShop(){
+  const fridgeIds=Object.keys(fridge);
+  const needed={};
+  lastR.meals.forEach(m=>{
+    [...m.r,...(m.o||[])].forEach(id=>{
+      if(!fridgeIds.includes(id)){const item=ALL_ITEMS.find(i=>i.id===id);if(item&&!needed[id])needed[id]={item,required:m.r.includes(id)};}
+    });
+  });
+  const lines=['🛒 買い物リスト（今日の献立より）',''];
+  CATS.forEach(cat=>{
+    const catItems=Object.keys(needed).filter(id=>cat.items.find(i=>i.id===id));
+    if(catItems.length){
+      lines.push(cat.name);
+      catItems.forEach(id=>{const{item}=needed[id];lines.push(`${shopDone[id]?'✅':'□'} ${item.e} ${item.n}`);});
+      lines.push('');
+    }
+  });
+  navigator.clipboard.writeText(lines.join('\n')).then(()=>alert('✅ コピーしました！')).catch(()=>alert('コピーに失敗しました'));
+}
+
 function tog(id,btnId,o,c){const el=document.getElementById(id);const btn=document.getElementById(btnId);if(!el||!btn)return;el.classList.toggle('open');btn.textContent=el.classList.contains('open')?c:o;}
 function deduct(){if(!confirm('使った食材を差し引きますか？'))return;Object.keys(lastSnap).forEach(id=>{if(fridge[id]){fridge[id].qty=Math.max(0,Math.round((fridge[id].qty-lastSnap[id].qty)*10)/10);if(fridge[id].qty<=0)delete fridge[id];}});ls('fridge',fridge);alert('✅ 完了！');}
 function tfm(i){const m=lastR&&lastR.meals[i];if(!m)return;const idx=favMeals.findIndex(f=>f.n===m.n);if(idx>=0)favMeals.splice(idx,1);else favMeals.push({...m,id:Date.now()});ls('favMeals',favMeals);const b=document.getElementById('fm'+i);if(b)b.textContent=favMeals.some(f=>f.n===m.n)?'❤️':'🤍';}

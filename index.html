@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>今日の献立なーに？</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{--bg:#FDFAF5;--sur:#FFF;--dark:#1C1916;--muted:#8A8278;--bdr:rgba(28,25,22,0.1);--gold:#9A7B3C;--gl:#F7F0DC;--gd:#7A5E20;--sage:#5A7040;--sl:#EAF0DF;--plum:#50407A;--pl:#F0ECF5;--ruby:#7A2E38;--rl:#FAE8E8;--amb:#C49A30;}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--dark);font-size:14px;min-height:100vh;}
+.hdr{background:var(--bg);border-bottom:1px solid var(--bdr);padding:12px 16px 0;position:sticky;top:0;z-index:100;}
+.hdr-top{display:flex;align-items:baseline;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+.hdr-top h1{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;}
+.hdr-top em{font-size:11px;color:var(--muted);font-family:'Cormorant Garamond',serif;font-style:italic;}
+.badge{background:var(--sl);color:var(--sage);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.tab-bar{display:flex;}
+.tb{flex:1;padding:8px 4px 7px;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;font-family:'Noto Sans JP',sans-serif;font-size:11px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px;touch-action:manipulation;transition:all .15s;}
+.tb .ti{font-size:17px;}
+.tb.on{color:var(--gold);border-bottom-color:var(--gold);font-weight:700;}
+.note-bar{background:var(--sl);padding:7px 14px;font-size:11px;color:var(--sage);display:flex;align-items:center;gap:5px;border-bottom:1px solid rgba(90,112,64,0.12);}
+.fridge-top{padding:10px 14px 6px;display:flex;justify-content:space-between;align-items:center;}
+.fridge-top h2{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;font-style:italic;}
+.reset-btn{font-size:11px;color:var(--ruby);border:1px solid rgba(122,46,56,0.25);background:none;padding:4px 10px;border-radius:20px;cursor:pointer;touch-action:manipulation;}
+.cat-tabs{display:flex;overflow-x:auto;padding:0 14px;scrollbar-width:none;border-bottom:1px solid var(--bdr);}
+.cat-tabs::-webkit-scrollbar{display:none;}
+.ct{flex-shrink:0;padding:7px 12px 5px;font-size:12px;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;font-family:'Noto Sans JP',sans-serif;touch-action:manipulation;}
+.ct.on{color:var(--dark);border-bottom-color:var(--dark);font-weight:700;}
+.ing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px;padding:12px 14px 140px;}
+.ic{background:var(--sur);border:1.5px solid var(--bdr);border-radius:12px;padding:9px 4px 7px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;position:relative;user-select:none;min-height:84px;justify-content:center;transition:all .12s;touch-action:manipulation;}
+.ic:active{transform:scale(0.92);}
+.ic.on{background:var(--gl);border-color:var(--gold);}
+.ie{font-size:24px;line-height:1;}
+.in{font-size:10px;text-align:center;line-height:1.3;font-weight:500;}
+.ichk{position:absolute;top:4px;right:4px;width:14px;height:14px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:8px;font-weight:900;}
+.qc{display:flex;align-items:center;gap:3px;margin-top:3px;}
+.qb{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--gold);background:#fff;color:var(--gold);font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;touch-action:manipulation;}
+.qb:active{background:var(--gold);color:#fff;}
+.qn{font-size:11px;font-weight:700;color:var(--gold);min-width:20px;text-align:center;}
+.gen-area{position:sticky;bottom:0;background:var(--bg);border-top:1px solid var(--bdr);padding:12px 14px;padding-bottom:max(12px,env(safe-area-inset-bottom));}
+.gen-btn{width:100%;padding:14px;background:var(--dark);color:#F7F0DC;border:none;border-radius:12px;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-style:italic;touch-action:manipulation;transition:all .15s;}
+.gen-btn:active{transform:scale(0.97);}
+.gen-btn:disabled{background:#C0BAB0;cursor:not-allowed;}
+.gen-hint{text-align:center;font-size:11px;color:var(--muted);margin-top:5px;}
+.menu-wrap{padding:12px 14px 100px;}
+.sel-sum{background:var(--sur);border:1px solid var(--bdr);border-radius:12px;padding:10px 12px;margin-bottom:10px;}
+.sel-ttl{font-size:10px;color:var(--muted);margin-bottom:5px;}
+.schips{display:flex;flex-wrap:wrap;gap:4px;}
+.sc{background:var(--gl);color:var(--gd);font-size:10px;padding:3px 8px;border-radius:20px;font-weight:500;display:flex;align-items:center;gap:3px;}
+.sc-q{background:var(--gold);color:#fff;border-radius:10px;padding:1px 5px;font-size:9px;font-weight:700;}
+.res-ttl{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;margin-bottom:12px;font-style:italic;margin-top:14px;}
+.mc{background:var(--sur);border:1px solid var(--bdr);border-radius:14px;margin-bottom:10px;overflow:hidden;}
+.mc-hdr{padding:9px 12px;display:flex;align-items:center;justify-content:space-between;}
+.h-朝食{background:#FFF8EE;}.h-昼食{background:var(--sl);}.h-夕食{background:var(--pl);}
+.mc-left{display:flex;align-items:center;gap:8px;}
+.mbdg{font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;color:#fff;}
+.b-朝食{background:var(--amb);}.b-昼食{background:var(--sage);}.b-夕食{background:var(--plum);}
+.mname{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--dark);}
+.fb{font-size:20px;border:none;background:none;cursor:pointer;padding:4px;touch-action:manipulation;line-height:1;}
+.mcb{padding:10px 12px;}
+.mdsc{font-size:12px;color:#444;line-height:1.7;margin-bottom:6px;}
+.chips{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px;}
+.chip{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;}
+.cm{background:var(--gl);color:var(--gd);}
+.cs{background:var(--sl);color:var(--sage);}
+.rtog{background:none;border:1px solid var(--bdr);color:var(--muted);border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:7px;touch-action:manipulation;}
+.rsteps{display:none;margin-top:7px;padding-top:7px;border-top:1px solid var(--bdr);}
+.rsteps.open{display:block;}
+.step{display:flex;gap:7px;margin-bottom:7px;align-items:flex-start;}
+.snum{width:17px;height:17px;border-radius:50%;background:var(--dark);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.stxt{font-size:11px;line-height:1.6;color:#333;}
+.sblk{background:var(--sur);border:1px solid var(--bdr);border-radius:14px;margin-bottom:10px;overflow:hidden;}
+.sbhdr{background:var(--sl);padding:9px 12px;}
+.sbttl{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--sage);font-style:italic;}
+.si{padding:10px 12px;border-bottom:1px solid var(--bdr);}
+.si:last-child{border-bottom:none;}
+.sirow{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;}
+.sn{font-size:13px;font-weight:700;color:var(--dark);}
+.scat{font-family:'Cormorant Garamond',serif;font-size:12px;color:var(--muted);font-style:italic;}
+.sdsc{font-size:11px;color:#555;margin-top:3px;line-height:1.6;}
+.dbtn{width:100%;margin-top:8px;padding:11px;background:var(--rl);border:1px solid rgba(122,46,56,0.2);border-radius:12px;color:var(--ruby);font-size:12px;font-weight:700;cursor:pointer;touch-action:manipulation;}
+.tip{background:var(--gl);border:1px solid rgba(154,123,60,0.2);border-radius:12px;padding:11px 13px;margin-bottom:10px;}
+.tip-l{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:var(--gd);margin-bottom:3px;font-style:italic;}
+.tip-t{font-size:12px;color:var(--dark);line-height:1.7;}
+.rtry{width:100%;padding:12px;background:transparent;border:1.5px solid var(--dark);border-radius:12px;color:var(--dark);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;font-style:italic;cursor:pointer;margin-top:8px;touch-action:manipulation;}
+.nomatch{background:var(--sur);border:1px solid var(--bdr);border-radius:14px;padding:20px;text-align:center;color:var(--muted);margin-bottom:10px;}
+.nomatch .ni{font-size:28px;margin-bottom:8px;}
+.nomatch p{font-size:12px;line-height:1.7;}
+.fwrap{padding:12px 14px 100px;}
+.fttl{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;font-style:italic;margin-bottom:10px;}
+.fcard{background:var(--sur);border:1px solid var(--bdr);border-radius:12px;padding:11px 12px;margin-bottom:8px;display:flex;align-items:flex-start;gap:8px;}
+.fi{flex:1;min-width:0;}
+.fn{font-size:13px;font-weight:700;color:var(--dark);}
+.fsub{font-size:10px;color:var(--muted);margin-top:2px;}
+.fdsc{font-size:11px;color:#555;margin-top:4px;line-height:1.5;}
+.xbtn{font-size:16px;border:none;background:none;cursor:pointer;color:var(--muted);padding:2px;flex-shrink:0;}
+.empty{text-align:center;padding:36px 16px;color:var(--muted);}
+.ei{font-size:36px;margin-bottom:10px;}
+.divider{height:1px;background:var(--bdr);margin:16px 0;}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-top">
+    <h1>今日の献立なーに？</h1>
+    <em>by AI Chef</em>
+    <span class="badge">📴 オフライン</span>
+  </div>
+  <div class="tab-bar">
+    <button class="tb on" id="tb-fridge" onclick="showTab('fridge')"><span class="ti">🥬</span>冷蔵庫</button>
+    <button class="tb" id="tb-menu" onclick="showTab('menu')"><span class="ti">🍽️</span>献立</button>
+    <button class="tb" id="tb-favs" onclick="showTab('favs')"><span class="ti">❤️</span>お気に入り</button>
+  </div>
+</div>
+<div id="tab-fridge">
+  <div class="note-bar">🧂 調味料は全部ある前提｜📴 完全オフライン・無料</div>
+  <div class="fridge-top"><h2>冷蔵庫の中身</h2><button class="reset-btn" onclick="resetFridge()">🗑 リセット</button></div>
+  <div class="cat-tabs" id="catTabs"></div>
+  <div class="ing-grid" id="ingGrid"></div>
+  <div class="gen-area">
+    <button class="gen-btn" id="genBtn" onclick="generate()" disabled>✦ 献立を考える</button>
+    <p class="gen-hint" id="genHint">食材を1つ以上選んでください</p>
+  </div>
+</div>
+<div id="tab-menu" style="display:none">
+  <div class="menu-wrap">
+    <div class="sel-sum"><div class="sel-ttl">選んだ食材</div><div class="schips" id="selChips"><span style="font-size:11px;color:var(--muted)">冷蔵庫タブで食材を選んでください</span></div></div>
+    <button class="gen-btn" id="genBtn2" onclick="generate()" disabled style="margin-bottom:8px">✦ 献立を考える</button>
+    <div id="resultArea"></div>
+  </div>
+</div>
+<div id="tab-favs" style="display:none"><div class="fwrap" id="favsWrap"></div></div>
+<script>
+const CATS=[
+  {id:'veg',name:'🥦 野菜・卵',items:[{id:'tamago',e:'🥚',n:'卵'},{id:'tofu',e:'🫙',n:'豆腐'},{id:'ninjin',e:'🥕',n:'にんじん'},{id:'tamanegi',e:'🧅',n:'玉ねぎ'},{id:'jagaimo',e:'🥔',n:'じゃがいも'},{id:'kyabetsu',e:'🥬',n:'キャベツ'},{id:'hakusai',e:'🥬',n:'白菜'},{id:'negi',e:'🌿',n:'ねぎ'},{id:'tomato',e:'🍅',n:'トマト'},{id:'horenso',e:'🌱',n:'ほうれん草'},{id:'kinoko',e:'🍄',n:'きのこ'},{id:'nasu',e:'🍆',n:'なす'},{id:'kyuri',e:'🥒',n:'きゅうり'},{id:'brocco',e:'🥦',n:'ブロッコリー'},{id:'daikon',e:'🌾',n:'大根'},{id:'avocado',e:'🥑',n:'アボカド'},{id:'corn',e:'🌽',n:'とうもろこし'},{id:'edamame',e:'🫛',n:'枝豆'},{id:'moyashi',e:'🌱',n:'もやし'},{id:'paprika',e:'🫑',n:'パプリカ'}]},
+  {id:'meat',name:'🥩 肉・魚',items:[{id:'chicken',e:'🍗',n:'鶏肉'},{id:'pork',e:'🥩',n:'豚肉'},{id:'beef',e:'🥩',n:'牛肉'},{id:'salmon',e:'🐟',n:'さけ'},{id:'shrimp',e:'🦐',n:'えび'},{id:'bacon',e:'🥓',n:'ベーコン'},{id:'sausage',e:'🌭',n:'ソーセージ'},{id:'tuna',e:'🥫',n:'ツナ缶'},{id:'ika',e:'🦑',n:'いか'},{id:'ham',e:'🍖',n:'ハム'},{id:'saba',e:'🐠',n:'さば缶'},{id:'hotate',e:'🐚',n:'ほたて'}]},
+  {id:'dairy',name:'🥛 乳製品',items:[{id:'milk',e:'🥛',n:'牛乳'},{id:'cheese',e:'🧀',n:'チーズ'},{id:'butter',e:'🧈',n:'バター'},{id:'yogurt',e:'🫙',n:'ヨーグルト'},{id:'cream',e:'🍶',n:'生クリーム'}]},
+  {id:'grain',name:'🍚 主食',items:[{id:'rice',e:'🍚',n:'ごはん'},{id:'pasta',e:'🍝',n:'パスタ'},{id:'bread',e:'🍞',n:'パン'},{id:'udon',e:'🍜',n:'うどん'},{id:'soba',e:'🍜',n:'そば'},{id:'ramen',e:'🍜',n:'ラーメン麺'},{id:'oatmeal',e:'🌾',n:'オートミール'}]},
+];
+const ALL_ITEMS=CATS.flatMap(c=>c.items);
+const RECIPES=[
+  {id:'tkr',t:'朝食',n:'卵かけごはん',d:'新鮮な卵をたっぷりかけた和の朝食。シンプルで栄養満点。',r:['tamago','rice'],o:['negi'],s:['ごはんを茶碗によそう','卵を割り入れる','醤油を少量かけてよく混ぜる','お好みでねぎを散らす']},
+  {id:'te',t:'朝食',n:'トースト＆目玉焼き',d:'カリカリトーストと半熟目玉焼きの定番朝食。',r:['bread','tamago'],o:['bacon','butter'],s:['パンをトースターで焼く','フライパンにバターを溶かし目玉焼きを作る','塩こしょうで味を整える','一緒に盛り付ける']},
+  {id:'ft',t:'朝食',n:'フレンチトースト',d:'卵液にたっぷり浸したリッチな朝食。外はカリッと中はふわふわ。',r:['bread','tamago','milk'],o:['butter'],s:['卵・牛乳・砂糖を混ぜ卵液を作る','パンを卵液に10分浸す','バターを熱したフライパンで両面こんがり焼く','粉砂糖やシロップをかけて完成']},
+  {id:'om',t:'朝食',n:'オムレツ',d:'ふんわり卵のオムレツ。具材たっぷりでボリューム満点。',r:['tamago'],o:['milk','butter','cheese','bacon','ham'],s:['卵3個を割りほぐし牛乳・塩を加える','フライパンにバターを熱する','卵液を流し込みへらで大きくかき混ぜる','半熟になったら成形して盛り付ける']},
+  {id:'be',t:'朝食',n:'ベーコンエッグ',d:'香ばしいベーコンと目玉焼きの黄金コンビ。',r:['bacon','tamago'],o:['bread'],s:['フライパンでベーコンをカリカリに焼く','同じフライパンで目玉焼きを作る','塩こしょうで味を整えて盛り付ける']},
+  {id:'oat',t:'朝食',n:'オートミール粥',d:'栄養満点のヘルシー朝食。腹持ちも抜群。',r:['oatmeal'],o:['milk','yogurt'],s:['オートミール1/2カップを鍋に入れる','牛乳または水1カップを加えて中火で煮る','とろみがついたら器に盛る','蜂蜜やフルーツをのせて完成']},
+  {id:'yog',t:'朝食',n:'ヨーグルトボウル',d:'さっぱりヘルシーな朝食。蜂蜜を添えて。',r:['yogurt'],o:[],s:['ヨーグルトを器に盛る','お好みで蜂蜜をかける','フルーツをトッピング','冷たいまま召し上がれ']},
+  {id:'he',t:'朝食',n:'ほうれん草の卵炒め',d:'緑黄色野菜をたっぷり使った栄養バランス抜群の朝食。',r:['horenso','tamago'],o:['negi'],s:['ほうれん草を洗って食べやすく切る','フライパンに油を熱しほうれん草を炒める','卵を割り入れざっくり混ぜる','塩こしょう・醤油で味を整える']},
+  {id:'ch',t:'昼食',n:'チャーハン',d:'パラパラに仕上げた本格炒飯。シンプルな食材で最高の一品。',r:['rice','tamago'],o:['negi','bacon','ham','pork'],s:['卵をご飯に混ぜておく','フライパンを強火で熱し油をひく','卵混じりのご飯を入れ素早く炒める','醤油・塩こしょうで味を整え完成']},
+  {id:'tp',t:'昼食',n:'ツナパスタ',d:'ツナ缶を使った簡単パスタ。うまみたっぷりでやみつきに。',r:['pasta','tuna'],o:['tamanegi','negi','tomato'],s:['パスタを表示通りに茹でる','フライパンにツナ缶（油ごと）を入れ炒める','茹でたパスタを加えよく混ぜる','醤油・塩こしょうで味を整える']},
+  {id:'tomp',t:'昼食',n:'トマトパスタ',d:'完熟トマトの旨みがたっぷり。イタリアン気分の一皿。',r:['pasta','tomato'],o:['tamanegi'],s:['にんにくをオリーブオイルで炒める','玉ねぎを加えしんなりするまで炒める','トマトを加えつぶしながら10分煮込む','茹でたパスタを加えよく絡める']},
+  {id:'ud',t:'昼食',n:'かけうどん',d:'だし香るシンプルうどん。ねぎをたっぷりのせて。',r:['udon'],o:['negi','tamago','kinoko'],s:['だし汁に醤油・みりんで汁を作る','うどんを温める','器に入れて汁を注ぐ','ねぎ・お好みのトッピングをのせる']},
+  {id:'sb',t:'昼食',n:'もりそば',d:'コシのある蕎麦をめんつゆで。さっぱりランチに。',r:['soba'],o:['negi'],s:['そばを表示通りに茹でる','冷水でしめる','めんつゆをつけ汁として用意','ねぎをそえて完成']},
+  {id:'rm',t:'昼食',n:'醤油ラーメン',d:'自家製スープの本格ラーメン。手軽なのに本格的。',r:['ramen'],o:['tamago','negi','pork'],s:['鶏がらスープ+醤油+みりんでスープを作る','麺を茹でる','スープを器に注ぎ麺を盛る','お好みのトッピングをのせる']},
+  {id:'sw',t:'昼食',n:'ハムサンドイッチ',d:'具材たっぷりの食べ応えあるサンドイッチ。',r:['bread','ham'],o:['tomato','kyuri','cheese'],s:['パンにマヨネーズを塗る','ハム・野菜を重ねる','もう一枚のパンで挟む','対角線に切って盛り付ける']},
+  {id:'ts',t:'昼食',n:'ツナサンド',d:'ツナとマヨネーズの黄金コンビ。',r:['bread','tuna'],o:['kyuri','corn'],s:['ツナ缶の汁を切りマヨネーズと混ぜる','お好みでコーンや玉ねぎを加える','パンに塗って挟む','食べやすく切る']},
+  {id:'sl',t:'昼食',n:'ミックスサラダ',d:'彩り豊かな野菜サラダ。ドレッシングで本格的に。',r:['kyabetsu','tomato'],o:['kyuri','corn','avocado','paprika'],s:['野菜を食べやすく切る','冷水にさらしパリッとさせる','水気をよく切る','ドレッシングをかけて完成']},
+  {id:'hiy',t:'昼食',n:'冷ややっこ',d:'シンプルが一番。薬味をたっぷりのせて。',r:['tofu'],o:['negi'],s:['豆腐をパックから出し水切りする','食べやすく切り器に盛る','ねぎをちらす','醤油をかけて完成']},
+  {id:'nj',t:'夕食',n:'肉じゃが',d:'ほっこり懐かしい定番家庭料理。甘辛い煮汁がしみた肉じゃが。',r:['jagaimo','tamanegi'],o:['beef','pork','ninjin'],s:['肉・野菜を食べやすく切る','油で肉を炒め野菜を加える','だし汁・醤油・みりん・砂糖で煮込む','じゃがいもが柔らかくなったら完成']},
+  {id:'ka',t:'夕食',n:'鶏の唐揚げ',d:'外はカリカリ中はジューシー。みんなが大好きな定番おかず。',r:['chicken'],o:['negi'],s:['鶏肉に醤油・みりん・にんにくで下味をつける','30分以上漬け込む','片栗粉をまぶして170℃の油で揚げる','カラッとしたら完成']},
+  {id:'tri',t:'夕食',n:'鶏の照り焼き',d:'甘辛タレが絡む照り焼きチキン。ご飯が進む一品。',r:['chicken','rice'],o:['negi'],s:['鶏肉を一口大に切る','フライパンで皮目から焼く','醤油・みりん・砂糖を合わせたタレを加える','タレが絡んで照りが出たら完成']},
+  {id:'ok',t:'夕食',n:'親子丼',d:'鶏肉と卵のコンビが最高。だし香る本格親子丼。',r:['chicken','tamago','rice'],o:[],s:['鶏肉を一口大に切る','だし汁・醤油・みりんで煮る','溶き卵を2回に分けて流し入れる','半熟で火を止めご飯の上にのせる']},
+  {id:'sg',t:'夕食',n:'豚の生姜焼き',d:'しょうが香る豚肉がご飯に合う！定食屋の定番。',r:['pork'],o:['tamanegi','kyabetsu'],s:['豚肉に醤油・みりん・しょうがで下味をつける','フライパンで豚肉を炒める','玉ねぎを加えしんなりするまで炒める','タレをからめて完成']},
+  {id:'sm',t:'夕食',n:'鮭のムニエル',d:'バターの香りが食欲をそそる本格フレンチ風。',r:['salmon','butter'],o:[],s:['鮭に塩こしょうをふり小麦粉をまぶす','バターを熱したフライパンで両面焼く','レモン汁をかけて香りを出す','パセリを散らして盛り付ける']},
+  {id:'ya',t:'夕食',n:'野菜炒め',d:'シャキシャキ食感が嬉しい手軽な炒め物。栄養バランス抜群。',r:['kyabetsu','moyashi'],o:['ninjin','pork','bacon'],s:['野菜を食べやすく切る','強火で熱したフライパンに油をひく','肉を炒め野菜を加えて素早く炒める','塩こしょう・醤油で味を整える']},
+  {id:'mb',t:'夕食',n:'麻婆豆腐',d:'ピリ辛旨みが絶品。豆腐がとろとろの本格中華。',r:['tofu','pork'],o:['negi'],s:['豆腐を2cm角に切り水切りする','フライパンで豚ひき肉を炒める','豆板醤・にんにく・しょうがを加える','豆腐とだし汁を加え片栗粉でとろみをつける']},
+  {id:'eg',t:'夕食',n:'えびのガーリックソテー',d:'にんにく香るえびのソテー。お酒に合う一品。',r:['shrimp'],o:[],s:['えびの背わたを取り下処理する','フライパンにオリーブオイルとにんにくを熱す','えびを加え両面ソテーする','塩こしょうで味を整える']},
+  {id:'hb',t:'夕食',n:'ほたてのバター醤油',d:'甘みのあるほたてにバター醤油が絡む贅沢な一皿。',r:['hotate','butter'],o:[],s:['ほたてに塩こしょうをふる','バターを熱したフライパンで両面焼く','醤油を回しかける','ねぎを散らして完成']},
+  {id:'gr',t:'夕食',n:'グラタン',d:'とろとろチーズが食欲そそるフレンチの定番。',r:['milk','cheese'],o:['butter','chicken','tamanegi'],s:['玉ねぎ・鶏肉をバターで炒める','小麦粉を加え牛乳を少しずつ加えてホワイトソースを作る','耐熱皿に盛りチーズをかける','200℃のオーブンで15分焼く']},
+  {id:'hg',t:'夕食',n:'ハンバーグ',d:'ジューシーな手作りハンバーグ。',r:['beef'],o:['tamanegi','milk'],s:['玉ねぎをみじん切りにして炒め冷ます','ひき肉に玉ねぎ・卵・パン粉・塩こしょうを混ぜる','成形してフライパンで両面焼く','ソースをかけて完成']},
+  {id:'cb',t:'夕食',n:'カルボナーラ',d:'卵とチーズの濃厚クリーミーパスタ。本格イタリアン。',r:['pasta','bacon','tamago'],o:['cream','cheese'],s:['パスタを表示通りに茹でる','ベーコンをフライパンで炒める','卵・チーズ・塩こしょうを混ぜソースを作る','火を止めパスタに絡め余熱でまとめる']},
+  {id:'bp',t:'夕食',n:'ブロッコリーベーコンパスタ',d:'野菜たっぷりのヘルシーパスタ。',r:['pasta','brocco','bacon'],o:[],s:['ブロッコリーを小房に分け茹でる','ベーコンをオリーブオイルとにんにくで炒める','茹でたパスタとブロッコリーを加える','塩こしょうで仕上げる']},
+  {id:'nm',t:'夕食',n:'なすの味噌炒め',d:'甘辛の味噌がなすに絡む和の定番おかず。',r:['nasu','pork'],o:[],s:['なすを乱切りにして塩水にさらす','フライパンで豚肉を炒める','なすを加えしんなりするまで炒める','味噌・みりん・砂糖で炒め合わせる']},
+  {id:'bj',t:'夕食',n:'豚汁',d:'野菜たっぷりの栄養満点豚汁。体が温まる。',r:['pork','daikon'],o:['ninjin','tamanegi','jagaimo','tofu'],s:['豚肉と野菜を食べやすく切る','鍋で豚肉を炒め野菜を加える','水とだしを加え煮込む','味噌を溶いて完成']},
+  {id:'sc',t:'夕食',n:'さば缶の味噌炒め',d:'さば缶で手軽に作れる本格おかず。DHA豊富。',r:['saba'],o:['negi'],s:['さば缶を汁ごとフライパンに入れる','生姜・みりん・醤油を加える','中火で汁気がなくなるまで炒める','ねぎを散らして完成']},
+  {id:'bs',t:'夕食',n:'ビーフシチュー',d:'牛肉がとろける本格シチュー。寒い夜にぴったり。',r:['beef','tamanegi','ninjin'],o:['jagaimo','butter'],s:['牛肉と野菜を大きめに切る','バターで肉を焼き色をつける','コンソメで煮込む','市販のルーを加え仕上げる']},
+  {id:'kr',t:'夕食',n:'きのこリゾット',d:'きのこの旨みたっぷりのイタリアン。',r:['kinoko','rice'],o:['butter','cheese'],s:['きのこをスライスしバターで炒める','米を洗わず加え油でコーティング','スープを少しずつ加えながら炒め煮する','チーズを加えて仕上げる']},
+];
+const SAUCES=[
+  {id:'vg',n:'クラシック・ヴィネグレット',cat:'フランス風',d:'サラダや魚料理に。シンプルで万能なフランスの基本ソース。',nd:[],op:['tamanegi'],s:['ディジョンマスタード小さじ1、酢大さじ2を混ぜる','オリーブオイル大さじ6を少しずつ加えながら乳化させる','塩こしょうで味を整える','エシャロット（玉ねぎ）をみじん切りで加えても']},
+  {id:'bb',n:'ブールブラン',cat:'フランス風',d:'魚料理の最高峰。白ワインとバターの香りが上品。',nd:['butter'],op:['cream','tamanegi'],s:['白ワイン・白ワインビネガー・みじん切り玉ねぎを煮詰める','液体が大さじ2程度になったら弱火にする','冷たいバターを少しずつ加えながら乳化させる','塩で味を整えて魚料理にかけて']},
+  {id:'bn',n:'ベアルネーズ風ソース',cat:'フランス風',d:'ステーキや魚に。卵黄とバターのリッチなソース。',nd:['butter','tamago'],op:[],s:['ハーブ・白ワインビネガーを煮詰める','卵黄を加えて湯煎でクリーム状に泡立てる','溶かしバターを少しずつ加えもったりさせる','塩・レモン汁で味を整える']},
+  {id:'cr',n:'クリームソース',cat:'フランス風',d:'パスタ・グラタン・肉料理に。濃厚で万能。',nd:['cream'],op:['butter','cheese'],s:['バターを溶かし小麦粉を炒める','牛乳を少しずつ加えながら混ぜる','生クリームを加えて煮詰める','塩こしょう・ナツメグで味を整える']},
+  {id:'tms',n:'フレッシュトマトソース',cat:'イタリアン',d:'パスタ・肉料理・魚料理に。万能トマトソース。',nd:['tomato'],op:['tamanegi'],s:['にんにくをオリーブオイルで炒める','玉ねぎを加えて透明になるまで炒める','トマトを加えてつぶしながら20分煮込む','塩・バジルで味を整える']},
+  {id:'av',n:'アボカドソース',cat:'洋風',d:'魚料理・鶏肉・サラダに。クリーミーで栄養満点。',nd:['avocado'],op:[],s:['アボカドをフォークで潰す','レモン汁・塩こしょうを加えて混ぜる','にんにくや玉ねぎを加えても','すぐ使わない場合は種を入れて変色防止']},
+  {id:'teri',n:'照り焼きソース',cat:'和風',d:'肉・魚・野菜なんでも合う万能和風ソース。',nd:[],op:[],s:['醤油3・みりん3・砂糖1を合わせる','小鍋で加熱して砂糖を溶かす','とろみをつけたい場合は片栗粉を少量加える','肉や魚を焼いた後にかけて絡める']},
+  {id:'pnz',n:'ポン酢ドレッシング',cat:'和風',d:'豆腐・サラダ・鍋のつけだれに。さっぱり爽やか。',nd:[],op:['negi','tofu'],s:['ポン酢大さじ3を基本にする','ごま油小さじ1を加える','しょうがをおろして加える','ねぎを刻んで散らして完成']},
+  {id:'gm',n:'ごまだれ',cat:'和風',d:'しゃぶしゃぶ・サラダ・うどんに。コクのある風味。',nd:[],op:['tofu','udon','soba'],s:['すりごま大さじ3、醤油・みりん各大さじ2を混ぜる','酢大さじ1、砂糖小さじ1を加える','だし少量でのばして好みの濃度に','冷蔵庫で1週間保存可能']},
+  {id:'gps',n:'生姜ポン酢ソース',cat:'和風',d:'焼き魚・蒸し料理・豆腐に。生姜の辛みが爽やか。',nd:[],op:['salmon','tofu','pork'],s:['生姜をすりおろす','ポン酢大さじ2と混ぜる','ねぎをみじん切りにして加える','魚や肉の上にかけて完成']},
+];
+
+function matchR(ids,type){
+  return RECIPES.filter(r=>r.t===type)
+    .map(r=>({...r,rm:r.r.filter(x=>ids.includes(x)).length,om:(r.o||[]).filter(x=>ids.includes(x)).length}))
+    .filter(r=>r.rm===r.r.length)
+    .sort((a,b)=>(b.rm+b.om*0.3)-(a.rm+a.om*0.3)||Math.random()-0.5);
+}
+function matchS(ids){
+  return SAUCES
+    .map(s=>({...s,ok:s.nd.length===0||s.nd.every(x=>ids.includes(x)),sc:(s.nd.length===0?50:80)+(s.op||[]).filter(x=>ids.includes(x)).length*10}))
+    .filter(s=>s.ok).sort((a,b)=>b.sc-a.sc||Math.random()-0.5).slice(0,3);
+}
+
+let activeCat='veg',fridge={},favMeals=[],favSauces=[],lastR=null,lastSnap={};
+const lg=(k,fb)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):fb;}catch{return fb;}};
+const ls=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}};
+
+function init(){
+  fridge=lg('fridge',{});favMeals=lg('favMeals',[]);favSauces=lg('favSauces',[]);
+  renderCatTabs();renderGrid();updateBtn();
+}
+function showTab(t){
+  ['fridge','menu','favs'].forEach(x=>{
+    document.getElementById('tab-'+x).style.display=x===t?'block':'none';
+    document.getElementById('tb-'+x).classList.toggle('on',x===t);
+  });
+  if(t==='menu'){renderSum();if(lastR)renderResult(lastR);}
+  if(t==='favs')renderFavs();
+}
+function renderCatTabs(){
+  document.getElementById('catTabs').innerHTML=CATS.map(c=>`<button class="ct ${c.id===activeCat?'on':''}" onclick="switchCat('${c.id}')">${c.name}</button>`).join('');
+}
+function switchCat(id){activeCat=id;renderCatTabs();renderGrid();}
+function renderGrid(){
+  const cat=CATS.find(c=>c.id===activeCat);
+  document.getElementById('ingGrid').innerHTML=cat.items.map(item=>{
+    const s=fridge[item.id];const qty=s?s.qty:0;
+    return `<div class="ic ${s?'on':''}" onclick="toggleIng('${item.id}')">
+      ${s?'<div class="ichk">✓</div>':''}
+      <div class="ie">${item.e}</div><div class="in">${item.n}</div>
+      ${s?`<div class="qc" onclick="event.stopPropagation()">
+        <button class="qb" onclick="cq('${item.id}',-0.5)">－</button>
+        <span class="qn">${qty%1===0?qty:qty.toFixed(1)}</span>
+        <button class="qb" onclick="cq('${item.id}',0.5)">＋</button>
+      </div>`:''}
+    </div>`;
+  }).join('');
+}
+function toggleIng(id){
+  const cat=CATS.find(c=>c.id===activeCat);
+  const item=cat.items.find(i=>i.id===id);if(!item)return;
+  if(fridge[id])delete fridge[id];else fridge[id]={item,qty:1};
+  ls('fridge',fridge);renderGrid();updateBtn();
+}
+function cq(id,d){if(!fridge[id])return;fridge[id].qty=Math.max(0.5,Math.round((fridge[id].qty+d)*10)/10);ls('fridge',fridge);renderGrid();}
+function resetFridge(){if(!confirm('リセットしますか？'))return;fridge={};ls('fridge',fridge);renderGrid();updateBtn();}
+function updateBtn(){
+  const n=Object.keys(fridge).length;
+  ['genBtn','genBtn2'].forEach(id=>{const b=document.getElementById(id);if(b)b.disabled=!n;});
+  const h=document.getElementById('genHint');if(h)h.textContent=n?`${n}種類の食材で献立を考えます`:'食材を1つ以上選んでください';
+}
+function renderSum(){
+  const keys=Object.keys(fridge);
+  ['genBtn2'].forEach(id=>{const b=document.getElementById(id);if(b)b.disabled=!keys.length;});
+  const c=document.getElementById('selChips');if(!c)return;
+  c.innerHTML=keys.length?keys.map(k=>{const{item,qty}=fridge[k];return`<span class="sc">${item.e} ${item.n}<span class="sc-q">${qty%1===0?qty:qty.toFixed(1)}</span></span>`;}).join(''):'<span style="font-size:11px;color:var(--muted)">冷蔵庫タブで食材を選んでください</span>';
+}
+function generate(){
+  const ids=Object.keys(fridge);if(!ids.length)return;
+  lastSnap=JSON.parse(JSON.stringify(fridge));
+  const a=matchR(ids,'朝食'),b=matchR(ids,'昼食'),c=matchR(ids,'夕食'),s=matchS(ids);
+  const tips=['旬の食材を積極的に使いましょう！','シンプルな調理法ほど素材の味が引き立ちます。','盛り付けに気を使うだけで食卓が華やかに。','下ごしらえをしっかりすると仕上がりが格段に違います。','食材を無駄なく使い切るのがプロの証。'];
+  lastR={meals:[a[0],b[0],c[0]].filter(Boolean),sauces:s,tip:tips[Math.floor(Math.random()*tips.length)],nm:['朝食','昼食','夕食'].filter(t=>!([a,b,c][['朝食','昼食','夕食'].indexOf(t)].length))};
+  showTab('menu');renderResult(lastR);
+}
+function renderResult(d){
+  const ra=document.getElementById('resultArea');if(!ra)return;
+  const mi={朝食:'🌅',昼食:'☀️',夕食:'🌙'};
+  const getItem=id=>ALL_ITEMS.find(i=>i.id===id);
+  ra.innerHTML=`<div class="res-ttl">✦ 今日の献立</div>`
+  +d.meals.map((m,i)=>{
+    const rid='r'+i;const isFav=favMeals.some(f=>f.n===m.n);
+    const steps=(m.s||[]).map((st,j)=>`<div class="step"><div class="snum">${j+1}</div><div class="stxt">${st}</div></div>`).join('');
+    const usedChips=[...new Set([...m.r,...(m.o||[])])].filter(id=>fridge[id]).map(id=>{const it=getItem(id);return it?`<span class="chip cm">${it.e} ${it.n}</span>`:''}).join('');
+    return `<div class="mc"><div class="mc-hdr h-${m.t}"><div class="mc-left"><span class="mbdg b-${m.t}">${mi[m.t]} ${m.t}</span><span class="mname">${m.n}</span></div><button class="fb" id="fm${i}" onclick="tfm(${i})">${isFav?'❤️':'🤍'}</button></div><div class="mcb"><p class="mdsc">${m.d}</p><div class="chips">${usedChips}</div>${steps?`<button class="rtog" id="rtb${rid}" onclick="tog('${rid}','rtb${rid}','📋 作り方を見る','▲ 閉じる')">📋 作り方を見る</button><div class="rsteps" id="${rid}">${steps}</div>`:''}</div></div>`;
+  }).join('')
+  +(d.nm&&d.nm.length?`<div class="nomatch"><div class="ni">🔍</div><p><b>${d.nm.join('・')}</b>に合うレシピが見つかりませんでした。<br>もっと食材を選ぶと提案が増えます！</p></div>`:'')
+  +(d.sauces&&d.sauces.length?`<div class="sblk"><div class="sbhdr"><span class="sbttl">✦ 今日のソース</span></div>${d.sauces.map((s,i)=>{const sid='sc'+i;const isFav=favSauces.some(f=>f.n===s.n);const ss=(s.s||[]).map((st,j)=>`<div class="step"><div class="snum">${j+1}</div><div class="stxt">${st}</div></div>`).join('');return`<div class="si"><div class="sirow"><div><div class="sn">${s.n}</div><div class="scat">${s.cat}</div></div><button class="fb" id="fs${i}" onclick="tfs(${i})">${isFav?'❤️':'🤍'}</button></div><p class="sdsc">${s.d}</p>${ss?`<button class="rtog" id="rtb${sid}" onclick="tog('${sid}','rtb${sid}','📋 作り方','▲ 閉じる')" style="border-color:var(--sage);color:var(--sage)">📋 作り方</button><div class="rsteps" id="${sid}">${ss}</div>`:''}</div>`;}).join('')}</div>`:''  )
+  +(d.tip?`<div class="tip"><div class="tip-l">✦ Chef's Note</div><p class="tip-t">${d.tip}</p></div>`:'')
+  +`<button class="dbtn" onclick="deduct()">🗑 使った食材を冷蔵庫から差し引く</button><button class="rtry" onclick="generate()">✦ 別の献立を提案してもらう</button>`;
+}
+function tog(id,btnId,o,c){const el=document.getElementById(id);const btn=document.getElementById(btnId);if(!el||!btn)return;el.classList.toggle('open');btn.textContent=el.classList.contains('open')?c:o;}
+function deduct(){if(!confirm('使った食材を差し引きますか？'))return;Object.keys(lastSnap).forEach(id=>{if(fridge[id]){fridge[id].qty=Math.max(0,Math.round((fridge[id].qty-lastSnap[id].qty)*10)/10);if(fridge[id].qty<=0)delete fridge[id];}});ls('fridge',fridge);alert('✅ 完了！');}
+function tfm(i){const m=lastR&&lastR.meals[i];if(!m)return;const idx=favMeals.findIndex(f=>f.n===m.n);if(idx>=0)favMeals.splice(idx,1);else favMeals.push({...m,id:Date.now()});ls('favMeals',favMeals);const b=document.getElementById('fm'+i);if(b)b.textContent=favMeals.some(f=>f.n===m.n)?'❤️':'🤍';}
+function tfs(i){const s=lastR&&lastR.sauces[i];if(!s)return;const idx=favSauces.findIndex(f=>f.n===s.n);if(idx>=0)favSauces.splice(idx,1);else favSauces.push({...s,id:Date.now()});ls('favSauces',favSauces);const b=document.getElementById('fs'+i);if(b)b.textContent=favSauces.some(f=>f.n===s.n)?'❤️':'🤍';}
+function renderFavs(){
+  const w=document.getElementById('favsWrap');
+  const mh=favMeals.length?favMeals.map(m=>`<div class="fcard"><div class="fi"><div class="fn">${m.n}</div><div class="fsub">${m.t||''}</div><div class="fdsc">${m.d||''}</div></div><button class="xbtn" onclick="dfm(${m.id})">✕</button></div>`).join(''):`<div class="empty"><div class="ei">🤍</div><p>献立の🤍を押して保存</p></div>`;
+  const sh=favSauces.length?favSauces.map(s=>`<div class="fcard"><div class="fi"><div class="fn">${s.n}</div><div class="fsub" style="font-style:italic">${s.cat||''}</div><div class="fdsc">${s.d||''}</div></div><button class="xbtn" onclick="dfs(${s.id})">✕</button></div>`).join(''):`<div class="empty"><div class="ei">🫙</div><p>ソースの🤍を押して保存</p></div>`;
+  w.innerHTML=`<div class="fttl">✦ お気に入りの献立</div>${mh}<div class="divider"></div><div class="fttl">✦ お気に入りのソース</div>${sh}`;
+}
+function dfm(id){favMeals=favMeals.filter(f=>f.id!==id);ls('favMeals',favMeals);renderFavs();}
+function dfs(id){favSauces=favSauces.filter(f=>f.id!==id);ls('favSauces',favSauces);renderFavs();}
+init();
+</script>
+</body>
+</html>

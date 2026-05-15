@@ -131,6 +131,17 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--dark
 .empty{text-align:center;padding:36px 16px;color:var(--muted);}
 .ei{font-size:36px;margin-bottom:10px;}
 .divider{height:1px;background:var(--bdr);margin:16px 0;}
+/* あと1つで作れる */
+.near-block{background:var(--sur);border:1px solid var(--bdr);border-radius:14px;margin-bottom:10px;overflow:hidden;}
+.near-hdr{background:#FFF3E8;padding:9px 12px;border-bottom:1px solid rgba(193,100,14,0.15);}
+.near-ttl{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:#C1640E;font-style:italic;}
+.near-item{padding:10px 12px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:10px;}
+.near-item:last-child{border-bottom:none;}
+.near-meal-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;color:#fff;flex-shrink:0;}
+.near-name{font-size:13px;font-weight:700;color:var(--dark);flex:1;}
+.near-add{display:flex;align-items:center;gap:5px;background:#FFF3E8;border-radius:20px;padding:4px 10px;flex-shrink:0;}
+.near-add-ico{font-size:16px;}
+.near-add-txt{font-size:11px;font-weight:700;color:#C1640E;white-space:nowrap;}
 </style>
 </head>
 <body>
@@ -287,6 +298,68 @@ const RECIPES=[
   {id:'paprika-niku',t:'夕食',n:'パプリカと牛肉のスープ煮',d:'パプリカの甘みと牛肉の旨みが合わさった彩り鮮やかな一皿。',r:['beef','paprika','tamanegi'],o:[],s:['牛肉と野菜を一口大に切る','フライパンで牛肉を炒める','コンソメスープで煮込む','塩こしょうで味を整える'],nut:{cal:360,p:24,f:14,c:28}},
   {id:'corn-butter',t:'夕食',n:'とうもろこしのバターソテー',d:'甘いとうもろこしをバターで炒めた副菜。シンプルで美味。',r:['corn','butter'],o:[],s:['とうもろこしを実をそぐ','バターを熱したフライパンで炒める','塩こしょうで味を整える','パセリを散らして完成'],nut:{cal:200,p:4,f:10,c:26}},
   {id:'spinach-bacon',t:'夕食',n:'ほうれん草とベーコンの炒め',d:'鉄分豊富なほうれん草とベーコンのシンプルな炒め物。',r:['horenso','bacon'],o:[],s:['ほうれん草を食べやすく切る','フライパンでベーコンを炒める','ほうれん草を加えてしんなりするまで炒める','塩こしょうで味を整える'],nut:{cal:240,p:14,f:16,c:8}},
+  // ── 朝食追加 ──
+  {id:'croque',t:'朝食',n:'クロックムッシュ',d:'ハムとチーズを挟んで焼いたフランスの定番ホットサンド。',r:['bread','ham','cheese'],o:['butter'],s:['パンにバターを塗る','ハム・チーズを挟む','フライパンで両面をこんがり焼く','チーズが溶けたら完成'],nut:{cal:420,p:20,f:20,c:40}},
+  {id:'garlic-toast',t:'朝食',n:'ガーリックトースト',d:'にんにくバターが香ばしい！朝から食欲をそそる一品。',r:['bread','butter'],o:[],s:['バターとにんにくを混ぜてガーリックバターを作る','パンに塗る','トースターで焼く','パセリをかけて完成'],nut:{cal:290,p:6,f:14,c:36}},
+  {id:'tamago-sand',t:'朝食',n:'たまごサンド',d:'ゆで卵たっぷりのふわふわたまごサンド。喫茶店の定番。',r:['tamago','bread'],o:[],s:['卵を固茹でにしてみじん切りにする','マヨネーズ・塩こしょうと混ぜる','パンに挟む','食べやすく切る'],nut:{cal:370,p:15,f:16,c:42}},
+  {id:'av-egg-toast',t:'朝食',n:'アボカドエッグトースト',d:'アボカドと目玉焼きのボリューム朝食。栄養バランス抜群。',r:['bread','avocado','tamago'],o:[],s:['パンをトーストする','アボカドを潰してレモン汁・塩で味付け','アボカドをのせる','目玉焼きをのせて完成'],nut:{cal:400,p:14,f:22,c:38}},
+  {id:'tomato-egg',t:'朝食',n:'トマトスクランブルエッグ',d:'トマトの酸味と卵のコクが絡む中華風朝食。',r:['tamago','tomato'],o:[],s:['トマトを一口大に切る','フライパンに油を熱しトマトを炒める','溶き卵を流し入れる','塩・砂糖で甘みを加えて炒め合わせる'],nut:{cal:180,p:12,f:10,c:10}},
+  {id:'ham-cheese-toast',t:'朝食',n:'ハムチーズトースト',d:'定番の組み合わせが間違いない。毎朝でも飽きない朝食。',r:['bread','cheese','ham'],o:[],s:['パンにハムをのせる','チーズをのせる','トースターで焼く','チーズが溶けたら完成'],nut:{cal:360,p:18,f:16,c:36}},
+  {id:'yogurt-oat',t:'朝食',n:'グラノーラヨーグルト',d:'ヨーグルトにオートミールをのせたヘルシー朝食。食物繊維たっぷり。',r:['yogurt','oatmeal'],o:[],s:['オートミールを少量の水かレンジで温める','ヨーグルトと混ぜる','蜂蜜をかける','フルーツを添えて完成'],nut:{cal:280,p:12,f:5,c:48}},
+  {id:'tuna-toast',t:'朝食',n:'ツナメルトトースト',d:'ツナとチーズが溶けた食べ応えあるトースト。',r:['tuna','bread','cheese'],o:[],s:['ツナ缶の汁を切りマヨネーズと混ぜる','パンにツナをのせる','チーズをたっぷりのせる','トースターで焼く'],nut:{cal:400,p:22,f:16,c:42}},
+  {id:'sausage-pan',t:'朝食',n:'ソーセージと野菜のパン',d:'ソーセージと野菜を焼いてパンで挟んだ朝食ホットドッグ風。',r:['sausage','bread'],o:['tomato','kyuri'],s:['ソーセージをフライパンで焼く','野菜を切る','パンを温める','ソーセージと野菜を挟んでケチャップをかける'],nut:{cal:440,p:16,f:20,c:48}},
+  {id:'kina-natto-rice',t:'朝食',n:'ねぎ卵かけごはん',d:'卵に刻みねぎをたっぷり混ぜた贅沢卵かけごはん。',r:['tamago','rice','negi'],o:[],s:['ねぎを小口切りにする','卵と一緒にかき混ぜる','ごはんにかける','醤油を回しかけて完成'],nut:{cal:420,p:16,f:9,c:66}},
+  // ── 昼食追加 ──
+  {id:'cream-pasta',t:'昼食',n:'クリームパスタ',d:'濃厚な生クリームソースが絡むリッチなパスタ。',r:['pasta','cream'],o:['bacon','tamanegi','cheese'],s:['ベーコン・玉ねぎを炒める','生クリームを加えて煮詰める','茹でたパスタを加える','塩こしょう・パルミジャーノで仕上げる'],nut:{cal:640,p:18,f:32,c:72}},
+  {id:'napolitan',t:'昼食',n:'ナポリタン',d:'ケチャップベースの懐かしい昭和の洋食パスタ。',r:['pasta','sausage','tamanegi'],o:['paprika','bacon'],s:['野菜・ソーセージを炒める','ケチャップ・ウスターソースを加える','茹でたパスタを加えて炒める','粉チーズをかける'],nut:{cal:500,p:16,f:14,c:78}},
+  {id:'seafood-pasta',t:'昼食',n:'シーフードパスタ',d:'えびの旨みがパスタに絡む本格イタリアン。',r:['pasta','shrimp'],o:['tomato','tamanegi'],s:['えびを下処理してにんにくで炒める','白ワインを加えてアルコールを飛ばす','茹でたパスタを加える','塩・オリーブオイルで仕上げる'],nut:{cal:490,p:26,f:10,c:72}},
+  {id:'meat-sauce',t:'昼食',n:'ミートソースパスタ',d:'じっくり煮込んだ本格ミートソース。たっぷりかけて食べよう。',r:['pasta','beef','tamanegi','tomato'],o:[],s:['玉ねぎ・牛ひき肉を炒める','トマトとコンソメを加えて20分煮込む','茹でたパスタにかける','チーズをかけて完成'],nut:{cal:580,p:26,f:18,c:78}},
+  {id:'avocado-pasta',t:'昼食',n:'アボカドパスタ',d:'クリーミーなアボカドソースが絡む冷製パスタ。夏にぴったり。',r:['pasta','avocado'],o:['tomato','tamago'],s:['パスタを茹でて冷水でしめる','アボカドを潰してソースを作る','ニンニク・レモン汁・塩で味付け','パスタとあえて盛り付ける'],nut:{cal:500,p:14,f:18,c:74}},
+  {id:'miso-udon',t:'昼食',n:'味噌煮込みうどん',d:'味噌仕立ての濃厚スープに卵がとろり。名古屋風の一杯。',r:['udon','tamago'],o:['negi','chicken','kinoko'],s:['だし汁に味噌を溶く','鶏肉・きのこを加えて煮る','うどんを加えて煮込む','生卵を割り入れて蓋をして完成'],nut:{cal:420,p:18,f:8,c:68}},
+  {id:'nabe-udon',t:'昼食',n:'鍋焼きうどん',d:'熱々の土鍋で食べる贅沢うどん。具だくさんで体が温まる。',r:['udon','chicken','tamago','negi'],o:['kinoko'],s:['だし汁に醤油・みりんでつゆを作る','鶏肉・野菜を入れて煮る','うどんを加える','卵を割り入れて蓋をする'],nut:{cal:480,p:26,f:8,c:74}},
+  {id:'kitsune-udon',t:'昼食',n:'きつねうどん',d:'甘く煮た油揚げ（豆腐で代用）がのったほっこりうどん。',r:['udon','tofu'],o:['negi'],s:['豆腐を薄切りにして甘辛く煮る','だし汁に醤油・みりんでつゆを作る','うどんを温めて盛る','豆腐をのせてねぎを散らす'],nut:{cal:360,p:16,f:6,c:58}},
+  {id:'pork-shabu-salad',t:'昼食',n:'豚しゃぶサラダ',d:'さっぱり豚しゃぶをたっぷりの野菜と合わせたヘルシーサラダ。',r:['pork','kyabetsu','kyuri'],o:[],s:['豚肉をさっとゆでる','野菜を食べやすく切る','ごまドレッシングで和える','盛り付けて完成'],nut:{cal:320,p:22,f:14,c:18}},
+  {id:'ebi-avocado',t:'昼食',n:'えびとアボカドのサラダ',d:'プリプリえびとクリーミーアボカドの豪華サラダ。',r:['shrimp','avocado'],o:['tomato','kyuri'],s:['えびをゆでて冷ます','アボカドを切る','野菜と合わせてドレッシングで和える','盛り付けて完成'],nut:{cal:280,p:18,f:16,c:14}},
+  {id:'gapao',t:'昼食',n:'ガパオライス',d:'タイ風バジル炒めごはん。スパイシーでエスニックな一皿。',r:['chicken','tamago','rice','paprika'],o:[],s:['鶏ひき肉をにんにく・唐辛子で炒める','パプリカを加えてさっと炒める','ナンプラー・オイスターソースで味付け','ごはんにのせて目玉焼きをのせる'],nut:{cal:560,p:28,f:16,c:72}},
+  {id:'dry-curry',t:'昼食',n:'ドライカレー',d:'水分少なめの本格カレー。スパイスが香る大人の一皿。',r:['beef','tamanegi','rice'],o:['ninjin','tamago'],s:['玉ねぎをみじん切りにして飴色になるまで炒める','牛ひき肉を加えてよく炒める','カレー粉・コンソメで味付け','ごはんにのせて目玉焼きをトッピング'],nut:{cal:580,p:26,f:18,c:74}},
+  {id:'chicken-rice',t:'昼食',n:'チキンライス',d:'ケチャップ味の鶏肉とご飯。オムライスの中身としても最高。',r:['chicken','rice','tamanegi'],o:[],s:['鶏肉と玉ねぎを炒める','ごはんを加えケチャップで炒める','塩こしょうで味を整える','パセリを散らして完成'],nut:{cal:540,p:24,f:12,c:76}},
+  {id:'moyashi-ramen',t:'昼食',n:'もやし塩ラーメン',d:'シャキシャキもやしがたっぷり。さっぱり塩スープが美味。',r:['ramen','moyashi'],o:['negi','tamago'],s:['もやしをさっと炒める','鶏がらスープ+塩+ごま油でスープを作る','麺を茹でる','もやしとねぎをのせる'],nut:{cal:420,p:16,f:10,c:64}},
+  {id:'pork-udon',t:'昼食',n:'豚しゃぶうどん',d:'豚肉のうまみがスープに溶け出した贅沢うどん。',r:['udon','pork','negi'],o:[],s:['豚肉をさっとゆでる','だし汁にポン酢で味付けのスープを作る','うどんを加える','豚肉とねぎをのせる'],nut:{cal:440,p:22,f:10,c:62}},
+  {id:'ebi-chili',t:'昼食',n:'えびのチリソース',d:'プリプリえびに甘辛チリソースが絡む中華の定番。',r:['shrimp','tomato','tamanegi'],o:[],s:['えびを下処理する','玉ねぎをみじん切りにして炒める','トマト・豆板醤・ケチャップでソースを作る','えびを加えて絡める'],nut:{cal:260,p:22,f:8,c:22}},
+  {id:'hakusai-tofu-soup',t:'昼食',n:'白菜と豆腐のスープ',d:'やさしい味わいの和風スープ。体に染みる一品。',r:['hakusai','tofu'],o:['negi'],s:['白菜をざく切りにする','だし汁で白菜を煮る','豆腐を加える','醤油・塩で味を整えねぎをのせる'],nut:{cal:120,p:8,f:4,c:12}},
+  {id:'bacon-lettuce-pasta',t:'昼食',n:'ベーコンとほうれん草のパスタ',d:'ベーコンの塩気とほうれん草が相性抜群のシンプルパスタ。',r:['pasta','bacon','horenso'],o:[],s:['ほうれん草を茹でて水気を絞る','ベーコンをにんにくで炒める','茹でたパスタを加える','塩こしょう・醤油で仕上げる'],nut:{cal:490,p:18,f:16,c:68}},
+  {id:'corn-cheese',t:'昼食',n:'コーンとチーズのリゾット風',d:'甘いコーンとチーズの旨みが絡む簡単リゾット。',r:['rice','corn','cheese'],o:['butter','milk'],s:['バターでご飯を炒める','牛乳・コンソメを加えて煮詰める','コーンとチーズを加える','塩こしょうで味を整える'],nut:{cal:480,p:14,f:16,c:70}},
+  {id:'salmon-rice',t:'昼食',n:'鮭フレークごはん',d:'ほぐし鮭をごはんに混ぜた手軽なランチ。',r:['salmon','rice'],o:['negi'],s:['鮭を焼いてほぐす','ごはんに混ぜる','醤油・塩で味を整える','ねぎを散らして完成'],nut:{cal:460,p:26,f:10,c:62}},
+  // ── 夕食追加 ──
+  {id:'pork-shabu',t:'夕食',n:'豚しゃぶ鍋',d:'薄切り豚肉をさっとくぐらせてポン酢で。ヘルシーな鍋料理。',r:['pork','hakusai','negi'],o:['tofu'],s:['白菜・ねぎを切る','鍋にだし汁を用意する','豚肉・野菜を入れてしゃぶしゃぶする','ポン酢・ごまだれをつけて食べる'],nut:{cal:360,p:24,f:14,c:22}},
+  {id:'mizutaki',t:'夕食',n:'水炊き',d:'鶏肉の旨みが溶け出したシンプルな鍋。ポン酢で食べるのが最高。',r:['chicken','hakusai','tofu','negi'],o:['kinoko'],s:['鍋に水とだし昆布を入れる','鶏肉を加えてアクを取りながら煮る','白菜・豆腐・野菜を加える','ポン酢で食べる'],nut:{cal:380,p:32,f:14,c:18}},
+  {id:'chanko',t:'夕食',n:'ちゃんこ鍋風',d:'鶏肉と野菜の栄養満点鍋。体がポカポカ温まる。',r:['chicken','tofu','hakusai'],o:['negi','kinoko'],s:['鶏がらスープで鶏肉を煮る','野菜・豆腐を加える','醤油・みりんで味付け','ごま油を回しかける'],nut:{cal:400,p:34,f:16,c:20}},
+  {id:'milefeuille-nabe',t:'夕食',n:'白菜と豚のミルフィーユ鍋',d:'白菜と豚肉を交互に重ねた見た目も美しい鍋。',r:['pork','hakusai'],o:['negi'],s:['白菜と豚肉を交互に重ねる','鍋に並べる','だし汁・醤油・みりんを注ぐ','蓋をして煮る。ポン酢で食べる'],nut:{cal:340,p:22,f:14,c:20}},
+  {id:'shigure',t:'夕食',n:'牛肉のしぐれ煮',d:'甘辛い佃煮風の牛肉。ごはんのお供に最高の一品。',r:['beef','negi'],o:[],s:['牛肉を食べやすく切る','鍋に醤油・みりん・砂糖・生姜を入れ煮立てる','牛肉を加えて汁気がなくなるまで煮る','ねぎを散らして完成'],nut:{cal:360,p:24,f:14,c:26}},
+  {id:'ika-yasai',t:'夕食',n:'いかと野菜の炒め物',d:'いかのプリプリ食感と野菜のシャキシャキが楽しいオイスター炒め。',r:['ika','tamanegi','ninjin'],o:[],s:['いかを食べやすく切る','フライパンで野菜を炒める','いかを加えて炒める','オイスターソース・醤油で味付け'],nut:{cal:240,p:20,f:8,c:20}},
+  {id:'hotate-cream',t:'夕食',n:'ほたてのクリーム煮',d:'ほたてのうまみが溶け込んだ濃厚クリームソース。豪華な一皿。',r:['hotate','cream','milk'],o:['butter','tamanegi'],s:['玉ねぎをバターで炒める','牛乳・生クリームでホワイトソースを作る','ほたてを加えて煮る','塩こしょう・パセリで仕上げる'],nut:{cal:380,p:22,f:22,c:22}},
+  {id:'saba-miso',t:'夕食',n:'さばの味噌煮',d:'甘辛味噌がしみたさばの煮物。ご飯が何杯でも食べられる。',r:['saba','tamanegi'],o:[],s:['さばに熱湯をかけて臭みを取る','水・酒・みりん・砂糖・味噌で煮汁を作る','さばを加えて落とし蓋で煮込む','生姜を加えて完成'],nut:{cal:340,p:26,f:16,c:18}},
+  {id:'te-ba',t:'夕食',n:'鶏手羽の甘辛煮',d:'コラーゲンたっぷりの手羽元が甘辛タレに絡む。箸が止まらない。',r:['chicken'],o:[],s:['手羽元を熱湯でさっとゆでる','醤油・みりん・砂糖・酢で煮汁を作る','手羽元を加えて煮込む','汁気がなくなるまで絡める'],nut:{cal:380,p:28,f:18,c:20}},
+  {id:'hakusai-pork',t:'夕食',n:'白菜と豚肉の煮物',d:'白菜と豚肉をだし汁で煮込んだほっこり和食。',r:['pork','hakusai'],o:['tofu'],s:['白菜をざく切りにする','だし汁で豚肉を煮る','白菜を加えて煮込む','醤油・みりんで味を整える'],nut:{cal:300,p:20,f:12,c:18}},
+  {id:'ebi-brocco',t:'夕食',n:'えびとブロッコリーの塩炒め',d:'プリプリえびとブロッコリーの彩りきれいな炒め物。',r:['shrimp','brocco'],o:[],s:['ブロッコリーを小房に分け茹でる','えびを下処理する','ガーリックオイルで炒める','塩こしょうで仕上げる'],nut:{cal:220,p:24,f:8,c:10}},
+  {id:'chicken-cream',t:'夕食',n:'鶏肉のクリーム煮込み',d:'柔らかい鶏肉が濃厚クリームソースに絡む。パンが欲しくなる一皿。',r:['chicken','cream','tamanegi'],o:['butter','kinoko'],s:['鶏肉に塩こしょうをして焼く','玉ねぎ・きのこを炒める','生クリーム・コンソメで煮込む','仕上げにパセリを散らす'],nut:{cal:480,p:30,f:28,c:16}},
+  {id:'soboro-don',t:'夕食',n:'鶏そぼろ丼',d:'甘辛鶏そぼろと炒り卵の二色丼。見た目も食欲をそそる。',r:['chicken','tamago','rice'],o:[],s:['鶏ひき肉を醤油・みりん・砂糖で炒り煮にする','炒り卵を作る','ごはんの上に二色に盛り付ける','紅しょうがを添えて完成'],nut:{cal:540,p:28,f:14,c:70}},
+  {id:'pikata',t:'夕食',n:'ピカタ',d:'卵をまとわせて焼いたイタリア風ソテー。しっとり柔らかい。',r:['pork','tamago'],o:['cheese'],s:['豚肉を薄く叩いて塩こしょうをふる','溶き卵にチーズを混ぜる','豚肉を卵液にくぐらせてフライパンで焼く','ケチャップを添えて完成'],nut:{cal:360,p:24,f:20,c:8}},
+  {id:'ebi-mayo',t:'夕食',n:'えびマヨ',d:'プリプリえびにマヨネーズソースが絡む人気おかず。お弁当にも。',r:['shrimp'],o:[],s:['えびを下処理して塩こしょうをふる','片栗粉をまぶして揚げる','マヨネーズ・ケチャップ・砂糖でソースを作る','えびとソースを和える'],nut:{cal:320,p:22,f:18,c:16}},
+  {id:'hakusai-cream',t:'夕食',n:'白菜のクリーム煮',d:'白菜をバターミルクでとろとろに煮込んだほっこり洋風煮物。',r:['hakusai','milk','butter'],o:['cheese','bacon'],s:['白菜をざく切りにする','バターで炒める','牛乳・コンソメを加えて煮込む','塩こしょうで味を整える'],nut:{cal:240,p:8,f:14,c:20}},
+  {id:'kinoko-chicken',t:'夕食',n:'きのこと鶏肉の和風炒め',d:'きのこの旨みと鶏肉の相性が抜群。ヘルシーな和風炒め。',r:['kinoko','chicken'],o:['negi'],s:['鶏肉ときのこを食べやすく切る','ごま油でにんにくを炒める','鶏肉・きのこを炒める','醤油・みりんで味付けし仕上げる'],nut:{cal:310,p:26,f:12,c:14}},
+  {id:'morocco-chicken',t:'夕食',n:'チキンのトマトスパイス煮',d:'スパイスとトマトで煮込んだエスニック風チキン。パンにも合う。',r:['chicken','tomato','tamanegi'],o:[],s:['鶏肉に塩・クミンをまぶして焼く','玉ねぎ・トマトを加える','スパイス・コンソメで煮込む','パセリを散らして完成'],nut:{cal:360,p:30,f:14,c:22}},
+  {id:'pork-spinach',t:'夕食',n:'豚肉とほうれん草の炒め',d:'鉄分豊富なほうれん草と豚肉のスタミナ炒め。',r:['pork','horenso'],o:[],s:['豚肉を一口大に切る','フライパンで豚肉を炒める','ほうれん草を加えてさっと炒める','醤油・にんにくで味付け'],nut:{cal:320,p:22,f:16,c:10}},
+  {id:'negi-tofu',t:'夕食',n:'豆腐とねぎの煮物',d:'豆腐をだし汁でじっくり煮込んだ体に優しいおかず。',r:['tofu','negi'],o:[],s:['豆腐を一口大に切る','だし汁・醤油・みりんを合わせる','豆腐を加えて煮含める','ねぎをたっぷりのせる'],nut:{cal:160,p:10,f:6,c:14}},
+  {id:'brocco-cheese',t:'夕食',n:'ブロッコリーのチーズ焼き',d:'ブロッコリーにチーズをたっぷりのせて焼いた簡単副菜。',r:['brocco','cheese'],o:[],s:['ブロッコリーを小房に分け茹でる','耐熱皿に並べる','チーズをたっぷりのせる','オーブンでチーズを溶かす'],nut:{cal:200,p:14,f:12,c:8}},
+  {id:'salmon-cream-pasta',t:'夕食',n:'鮭とほうれん草のクリームパスタ',d:'鮭のうまみとほうれん草が濃厚クリームと絡む贅沢パスタ。',r:['pasta','salmon','horenso','cream'],o:['butter'],s:['鮭を焼いてほぐす','ほうれん草を茹でる','バター・生クリームでソースを作る','茹でたパスタと合わせる'],nut:{cal:680,p:28,f:32,c:70}},
+  {id:'chicken-mustard',t:'夕食',n:'チキンのマスタードソテー',d:'マスタードとハーブが香るフレンチ風チキン。おしゃれな夕食に。',r:['chicken','tamanegi'],o:[],s:['鶏肉に塩こしょうをふる','フライパンで皮目から焼く','玉ねぎを加えて炒める','ディジョンマスタード・バターでソースを作る'],nut:{cal:380,p:32,f:18,c:12}},
+  {id:'daikon-soboro',t:'夕食',n:'大根のそぼろ煮',d:'大根に豚そぼろが絡んだほっこり和食。大根の甘みが美味。',r:['pork','daikon'],o:[],s:['大根を2cm厚に切り下茹でする','豚ひき肉をそぼろ状に炒める','だし汁・醤油・みりんで大根を煮る','そぼろをかけて完成'],nut:{cal:280,p:16,f:10,c:28}},
+  {id:'salmon-cheese',t:'夕食',n:'鮭のチーズ焼き',d:'鮭にチーズをのせてオーブンで。フレンチ風の一皿。',r:['salmon','cheese'],o:['tamanegi'],s:['鮭に塩こしょうをふる','フライパンで焼き色をつける','チーズをのせてオーブンで焼く','レモンを添えて完成'],nut:{cal:380,p:32,f:20,c:6}},
+  {id:'pasta-gratin',t:'夕食',n:'マカロニグラタン',d:'パスタをホワイトソースで絡めたクラシックグラタン。',r:['pasta','milk','cheese','bacon'],o:['butter','tamanegi'],s:['パスタを茹でる','ホワイトソースを作る','パスタ・ベーコン・ソースを混ぜる','耐熱皿に盛りチーズをかけて焼く'],nut:{cal:580,p:22,f:26,c:64}},
+  {id:'pork-pirika',t:'夕食',n:'豚肉とパプリカの甘辛炒め',d:'彩り豊かなパプリカと豚肉のハンガリー風炒め。',r:['pork','paprika'],o:['tamanegi'],s:['豚肉とパプリカを細切りにする','油でにんにくを炒める','豚肉・パプリカを加えて炒める','醤油・みりん・砂糖で甘辛に仕上げる'],nut:{cal:340,p:20,f:16,c:24}},
+  {id:'kinoko-butter',t:'夕食',n:'きのこのバターソテー',d:'シンプルなバターソテーがきのこの旨みを最大限に引き出す。',r:['kinoko','butter'],o:['negi'],s:['きのこを食べやすく切る','バターを熱したフライパンで炒める','醤油を少量かける','ねぎを散らして完成'],nut:{cal:160,p:4,f:10,c:10}},
+  {id:'brocco-shrimp',t:'夕食',n:'えびとブロッコリーのグラタン',d:'プリプリえびと緑のブロッコリーが映える贅沢グラタン。',r:['shrimp','brocco','milk','cheese'],o:['butter'],s:['えびとブロッコリーを下処理する','ホワイトソースを作る','えびとブロッコリーを絡める','チーズをのせてオーブンで焼く'],nut:{cal:440,p:28,f:20,c:34}},
 ];
 const SAUCES=[
   {id:'vg',n:'クラシック・ヴィネグレット',cat:'フランス風',d:'サラダや魚料理に。シンプルで万能なフランスの基本ソース。',nd:[],op:['tamanegi'],s:['ディジョンマスタード小さじ1、酢大さじ2を混ぜる','オリーブオイル大さじ6を少しずつ加えながら乳化させる','塩こしょうで味を整える','エシャロット（玉ねぎ）をみじん切りで加えても']},
@@ -301,11 +374,16 @@ const SAUCES=[
   {id:'gps',n:'生姜ポン酢ソース',cat:'和風',d:'焼き魚・蒸し料理・豆腐に。生姜の辛みが爽やか。',nd:[],op:['salmon','tofu','pork'],s:['生姜をすりおろす','ポン酢大さじ2と混ぜる','ねぎをみじん切りにして加える','魚や肉の上にかけて完成']},
 ];
 
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
+  return arr;
+}
 function matchR(ids,type){
-  return RECIPES.filter(r=>r.t===type)
+  const candidates=RECIPES.filter(r=>r.t===type)
     .map(r=>({...r,rm:r.r.filter(x=>ids.includes(x)).length,om:(r.o||[]).filter(x=>ids.includes(x)).length}))
-    .filter(r=>r.rm===r.r.length)
-    .sort((a,b)=>(b.rm+b.om*0.3)-(a.rm+a.om*0.3)||Math.random()-0.5);
+    .filter(r=>r.rm===r.r.length);
+  // シャッフルして返す → 押すたびに違うレシピが出る
+  return shuffle(candidates);
 }
 function matchS(ids){
   return SAUCES.map(s=>({...s,ok:s.nd.length===0||s.nd.every(x=>ids.includes(x)),sc:(s.nd.length===0?50:80)+(s.op||[]).filter(x=>ids.includes(x)).length*10}))
@@ -367,12 +445,32 @@ function renderSum(){
   const c=document.getElementById('selChips');if(!c)return;
   c.innerHTML=keys.length?keys.map(k=>{const{item,qty}=fridge[k];return`<span class="sc">${item.e} ${item.n}<span class="sc-q">${qty%1===0?qty:qty.toFixed(1)}</span></span>`;}).join(''):'<span style="font-size:11px;color:var(--muted)">冷蔵庫タブで食材を選んでください</span>';
 }
+function nearMiss(ids, pickedIds){
+  // 必須食材が1個だけ足りないレシピを探す（すでに選ばれたレシピを除く）
+  return RECIPES
+    .filter(r=>!pickedIds.includes(r.id))
+    .map(r=>{
+      const missing=r.r.filter(x=>!ids.includes(x));
+      const matched=r.r.filter(x=>ids.includes(x));
+      return{...r,missing,matched};
+    })
+    .filter(r=>r.missing.length===1 && r.matched.length>=1)
+    .sort((a,b)=>b.matched.length-a.matched.length||Math.random()-0.5);
+}
+
 function generate(){
   const ids=Object.keys(fridge);if(!ids.length)return;
   lastSnap=JSON.parse(JSON.stringify(fridge));
   const a=matchR(ids,'朝食'),b=matchR(ids,'昼食'),c=matchR(ids,'夕食'),s=matchS(ids);
+  const picked=[a[0],b[0],c[0]].filter(Boolean);
+  const pickedIds=picked.map(r=>r.id);
+  // あと1つで作れるレシピ（朝昼夜から各1件まで、計最大6件）
+  const nm=nearMiss(ids,pickedIds);
+  const nmByType={朝食:[],昼食:[],夕食:[]};
+  nm.forEach(r=>{if(nmByType[r.t]&&nmByType[r.t].length<2)nmByType[r.t].push(r);});
+  const nearMissList=[...nmByType['朝食'],...nmByType['昼食'],...nmByType['夕食']];
   const tips=['旬の食材を積極的に使いましょう！','シンプルな調理法ほど素材の味が引き立ちます。','盛り付けに気を使うだけで食卓が華やかに。','下ごしらえをしっかりすると仕上がりが格段に違います。','食材を無駄なく使い切るのがプロの証。'];
-  lastR={meals:[a[0],b[0],c[0]].filter(Boolean),sauces:s,tip:tips[Math.floor(Math.random()*tips.length)],nm:['朝食','昼食','夕食'].filter(t=>!([a,b,c][['朝食','昼食','夕食'].indexOf(t)].length))};
+  lastR={meals:picked,sauces:s,tip:tips[Math.floor(Math.random()*tips.length)],nm:['朝食','昼食','夕食'].filter(t=>!([a,b,c][['朝食','昼食','夕食'].indexOf(t)].length)),nearMiss:nearMissList};
   shopDone={};
   showTab('menu');renderResult(lastR);
 }
@@ -434,6 +532,20 @@ function renderResult(d){
   +dailyNut
   +(d.sauces&&d.sauces.length?`<div class="sblk"><div class="sbhdr"><span class="sbttl">✦ 今日のソース</span></div>${d.sauces.map((s,i)=>{const sid='sc'+i;const isFav=favSauces.some(f=>f.n===s.n);const ss=(s.s||[]).map((st,j)=>`<div class="step"><div class="snum">${j+1}</div><div class="stxt">${st}</div></div>`).join('');return`<div class="si"><div class="sirow"><div><div class="sn">${s.n}</div><div class="scat">${s.cat}</div></div><button class="fb" id="fs${i}" onclick="tfs(${i})">${isFav?'❤️':'🤍'}</button></div><p class="sdsc">${s.d}</p>${ss?`<button class="rtog" id="rtb${sid}" onclick="tog('${sid}','rtb${sid}','📋 作り方','▲ 閉じる')" style="border-color:var(--sage);color:var(--sage)">📋 作り方</button><div class="rsteps" id="${sid}">${ss}</div>`:''}</div>`;}).join('')}</div>`:'')
   +(d.tip?`<div class="tip"><div class="tip-l">✦ Chef's Note</div><p class="tip-t">${d.tip}</p></div>`:'')
+  // あと1つで作れる！セクション
+  +(d.nearMiss&&d.nearMiss.length?`<div class="near-block">
+    <div class="near-hdr"><span class="near-ttl">🛒 あと1つ買えばこれも作れる！</span></div>
+    ${d.nearMiss.map(r=>{
+      const missingItem=ALL_ITEMS.find(i=>i.id===r.missing[0]);
+      const micon={朝食:'🌅',昼食:'☀️',夕食:'🌙'};
+      const bcls={朝食:var(--amb),昼食:'var(--sage)',夕食:'var(--plum)'};
+      return`<div class="near-item">
+        <span class="near-meal-badge" style="background:${{朝食:'var(--amb)',昼食:'var(--sage)',夕食:'var(--plum)'}[r.t]}">${micon[r.t]} ${r.t}</span>
+        <span class="near-name">${r.n}</span>
+        ${missingItem?`<div class="near-add"><span class="near-add-ico">${missingItem.e}</span><span class="near-add-txt">${missingItem.n}を追加</span></div>`:''}
+      </div>`;
+    }).join('')}
+  </div>`:'')
   +`<button class="dbtn" onclick="deduct()">🗑 使った食材を冷蔵庫から差し引く</button>
   <button class="rtry" onclick="generate()">✦ 別の献立を提案してもらう</button>
   <button class="rtry" onclick="showTab('shop')" style="margin-top:8px;border-color:var(--teal);color:var(--teal)">🛒 買い物リストを見る</button>`;

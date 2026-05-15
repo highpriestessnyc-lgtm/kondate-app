@@ -42,6 +42,12 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--dark
 .gen-btn:active{transform:scale(0.97);}
 .gen-btn:disabled{background:#C0BAB0;cursor:not-allowed;}
 .gen-hint{text-align:center;font-size:11px;color:var(--muted);margin-top:5px;}
+.quick-bar{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;}
+.quick-btn{display:flex;align-items:center;gap:6px;padding:7px 16px;border:1.5px solid var(--bdr);border-radius:30px;background:transparent;cursor:pointer;font-family:'Noto Sans JP',sans-serif;font-size:12px;color:var(--muted);transition:all .2s;touch-action:manipulation;}
+.quick-btn.on{background:var(--gl);border-color:var(--gold);color:var(--gd);font-weight:700;}
+.quick-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);flex-shrink:0;transition:background .2s;}
+.quick-btn.on .quick-dot{background:var(--gold);}
+.quick-count{font-size:10px;opacity:0.7;}
 .menu-wrap{padding:12px 14px 100px;}
 .sel-sum{background:var(--sur);border:1px solid var(--bdr);border-radius:12px;padding:10px 12px;margin-bottom:10px;}
 .sel-ttl{font-size:10px;color:var(--muted);margin-bottom:5px;}
@@ -165,13 +171,19 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--dark
   <div class="ing-grid" id="ingGrid"></div>
   <div class="gen-area">
     <button class="gen-btn" id="genBtn" onclick="generate()" disabled>✦ 献立を考える</button>
+    <div class="quick-bar">
+      <button class="quick-btn" id="quickBtn" onclick="toggleQuick()">
+        <span class="quick-dot"></span>⚡ 時短モード<span class="quick-count" id="quickCount"></span>
+      </button>
+    </div>
     <p class="gen-hint" id="genHint">食材を1つ以上選んでください</p>
   </div>
 </div>
 <div id="tab-menu" style="display:none">
   <div class="menu-wrap">
     <div class="sel-sum"><div class="sel-ttl">選んだ食材</div><div class="schips" id="selChips"><span style="font-size:11px;color:var(--muted)">冷蔵庫タブで食材を選んでください</span></div></div>
-    <button class="gen-btn" id="genBtn2" onclick="generate()" disabled style="margin-bottom:8px">✦ 献立を考える</button>
+    <button class="gen-btn" id="genBtn2" onclick="generate()" disabled style="margin-bottom:4px">✦ 献立を考える</button>
+    <div class="quick-bar"><button class="quick-btn" id="quickBtn2" onclick="toggleQuick2()"><span class="quick-dot"></span>⚡ 時短モード<span class="quick-count" id="quickCount2"></span></button></div>
     <div id="resultArea"></div>
   </div>
 </div>
@@ -374,16 +386,44 @@ const SAUCES=[
   {id:'gps',n:'生姜ポン酢ソース',cat:'和風',d:'焼き魚・蒸し料理・豆腐に。生姜の辛みが爽やか。',nd:[],op:['salmon','tofu','pork'],s:['生姜をすりおろす','ポン酢大さじ2と混ぜる','ねぎをみじん切りにして加える','魚や肉の上にかけて完成']},
 ];
 
+// ⚡ 時短レシピ ID（目安20分以内）
+const QUICK_IDS=new Set([
+  'tkr','te','be','yog','he','av-toast','tamago-soup','cheese-toast',
+  'ham-egg-rice','kinoko-egg','garlic-toast','tamago-sand','av-egg-toast',
+  'tomato-egg','ham-cheese-toast','tuna-toast','sausage-pan','kina-natto-rice',
+  'blt','om','hotdog-egg','yogurt-oat',
+  'ch','ud','sb','sw','ts','sl','hiy','tofu-champ','moyashi-ramen',
+  'avocado-don','salmon-don','avocado-pasta','ebi-avocado','pork-udon',
+  'hakusai-tofu-soup','salmon-rice','rm','tp','pepperon','kinoko-pasta',
+  'tenshin','soba-salad','ebi-chili','minestrone',
+  'eg','hb','ya','nm','sc2','sg','sm','ika-butter','tofu-steak','saba-shio',
+  'brocco-beef','corn-butter','spinach-bacon','ebi-brocco','negi-tofu',
+  'brocco-cheese','kinoko-butter','ebi-mayo','ika-yasai','kinoko-chicken',
+  'pork-pirika','salmon-cheese','ok','soboro-don','bangbang','pork-spinach',
+  'tori-muso','pikata','pork-cabbage','shigure','ebi-fry',
+]);
+let quickMode=false;
+
 function shuffle(arr){
   for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
   return arr;
 }
 function matchR(ids,type){
-  const candidates=RECIPES.filter(r=>r.t===type)
+  let candidates=RECIPES.filter(r=>r.t===type)
     .map(r=>({...r,rm:r.r.filter(x=>ids.includes(x)).length,om:(r.o||[]).filter(x=>ids.includes(x)).length}))
     .filter(r=>r.rm===r.r.length);
-  // シャッフルして返す → 押すたびに違うレシピが出る
+  if(quickMode)candidates=candidates.filter(r=>QUICK_IDS.has(r.id));
   return shuffle(candidates);
+}
+function toggleQuick(){quickMode=!quickMode;syncQuickBtns();updateBtn();}
+function toggleQuick2(){quickMode=!quickMode;syncQuickBtns();updateBtn();}
+function syncQuickBtns(){
+  ['quickBtn','quickBtn2'].forEach(id=>{
+    const b=document.getElementById(id);if(b)b.classList.toggle('on',quickMode);
+  });
+  ['quickCount','quickCount2'].forEach(id=>{
+    const c=document.getElementById(id);if(c)c.textContent=quickMode?' (ON)':'';
+  });
 }
 function matchS(ids){
   return SAUCES.map(s=>({...s,ok:s.nd.length===0||s.nd.every(x=>ids.includes(x)),sc:(s.nd.length===0?50:80)+(s.op||[]).filter(x=>ids.includes(x)).length*10}))
@@ -435,9 +475,15 @@ function toggleIng(id){
 function cq(id,d){if(!fridge[id])return;fridge[id].qty=Math.max(0.5,Math.round((fridge[id].qty+d)*10)/10);ls('fridge',fridge);renderGrid();}
 function resetFridge(){if(!confirm('リセットしますか？'))return;fridge={};ls('fridge',fridge);renderGrid();updateBtn();}
 function updateBtn(){
-  const n=Object.keys(fridge).length;
+  const ids=Object.keys(fridge);
+  const n=ids.length;
   ['genBtn','genBtn2'].forEach(id=>{const b=document.getElementById(id);if(b)b.disabled=!n;});
-  const h=document.getElementById('genHint');if(h)h.textContent=n?`${n}種類の食材で献立を考えます`:'食材を1つ以上選んでください';
+  const h=document.getElementById('genHint');
+  if(h){
+    if(!n)h.textContent='食材を1つ以上選んでください';
+    else if(quickMode)h.textContent=`⚡ 時短モード ON — ${n}種類の食材で考えます`;
+    else h.textContent=`${n}種類の食材で献立を考えます`;
+  }
 }
 function renderSum(){
   const keys=Object.keys(fridge);

@@ -538,9 +538,9 @@ function renderResult(d){
     ${d.nearMiss.map(r=>{
       const missingItem=ALL_ITEMS.find(i=>i.id===r.missing[0]);
       const micon={朝食:'🌅',昼食:'☀️',夕食:'🌙'};
-      const bcls={朝食:var(--amb),昼食:'var(--sage)',夕食:'var(--plum)'};
+      const bclr={朝食:'var(--amb)',昼食:'var(--sage)',夕食:'var(--plum)'};
       return`<div class="near-item">
-        <span class="near-meal-badge" style="background:${{朝食:'var(--amb)',昼食:'var(--sage)',夕食:'var(--plum)'}[r.t]}">${micon[r.t]} ${r.t}</span>
+        <span class="near-meal-badge" style="background:${bclr[r.t]||'#888'}">${micon[r.t]||''} ${r.t}</span>
         <span class="near-name">${r.n}</span>
         ${missingItem?`<div class="near-add"><span class="near-add-ico">${missingItem.e}</span><span class="near-add-txt">${missingItem.n}を追加</span></div>`:''}
       </div>`;

@@ -59,27 +59,45 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--dark
 .sc{background:var(--gl);color:var(--gd);font-size:10px;padding:3px 8px;border-radius:20px;font-weight:500;display:flex;align-items:center;gap:3px;}
 .sc-q{background:var(--gold);color:#fff;border-radius:10px;padding:1px 5px;font-size:9px;font-weight:700;}
 .res-ttl{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;margin-bottom:12px;font-style:italic;margin-top:14px;}
-.mc{background:var(--sur);border:1px solid var(--bdr);border-radius:14px;margin-bottom:10px;overflow:hidden;}
-.mc-hdr{padding:9px 12px;display:flex;align-items:center;justify-content:space-between;}
-.h-朝食{background:#FFF8EE;}.h-昼食{background:var(--sl);}.h-夕食{background:var(--pl);}
-.mc-left{display:flex;align-items:center;gap:8px;}
-.mbdg{font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;color:#fff;}
+.mc{background:var(--sur);border:1px solid var(--bdr);border-radius:16px;margin-bottom:12px;overflow:hidden;}
+.mc-accent{height:3px;width:100%;}
+.a-朝食{background:var(--amb);}.a-昼食{background:var(--sage);}.a-夕食{background:var(--plum);}
+.mc-hdr{padding:12px 14px 10px;display:flex;align-items:flex-start;justify-content:space-between;}
+.h-朝食{background:#FFFBF0;}.h-昼食{background:#F0F7E8;}.h-夕食{background:#EEEAF5;}
+.mc-left{flex:1;min-width:0;}
+.mbdg{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;color:#fff;display:inline-block;margin-bottom:5px;letter-spacing:0.3px;}
 .b-朝食{background:var(--amb);}.b-昼食{background:var(--sage);}.b-夕食{background:var(--plum);}
-.mname{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;color:var(--dark);}
-.fb{font-size:20px;border:none;background:none;cursor:pointer;padding:4px;touch-action:manipulation;line-height:1;}
-.mcb{padding:10px 12px;}
-.mdsc{font-size:12px;color:#444;line-height:1.7;margin-bottom:6px;}
-.chips{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px;}
-.chip{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;}
-.cm{background:var(--gl);color:var(--gd);}
+.mname{font-family:'Noto Serif JP',serif;font-size:19px;font-weight:700;color:var(--dark);line-height:1.3;letter-spacing:0.3px;}
+.fb{font-size:22px;border:none;background:none;cursor:pointer;padding:4px;touch-action:manipulation;line-height:1;flex-shrink:0;}
+.mcb{padding:0 14px 14px;}
+.mdsc{font-size:12px;color:#666;line-height:1.7;margin-bottom:8px;}
+.cal-row-card{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.nut-cal{background:#FFF3E0;color:#C47020;font-size:13px;font-weight:700;padding:4px 12px;border-radius:20px;display:inline-flex;align-items:center;gap:3px;}
+.diet-badge-card{background:#E8F5E4;color:#3A6030;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;}
+.nut-grid-card{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;}
+.nut-item-card{background:#F7F5F0;border-radius:8px;padding:8px 6px;text-align:center;}
+.nut-val-card{font-size:15px;font-weight:700;}
+.nut-lbl-card{font-size:9px;color:var(--muted);margin-top:2px;letter-spacing:0.3px;}
+.nut-mini-bar{margin-top:5px;height:3px;background:rgba(0,0,0,0.08);border-radius:2px;overflow:hidden;}
+.nut-mini-fill{height:100%;border-radius:2px;}
+.chips{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:8px;}
+.chip{font-size:10px;padding:2px 8px;border-radius:6px;font-weight:500;}
+.cm{background:#F7F0DC;color:var(--gd);}
 .cs{background:var(--sl);color:var(--sage);}
-/* 栄養バー */
-.nut-row{display:flex;align-items:center;gap:6px;margin-top:8px;padding-top:8px;border-top:1px solid var(--bdr);}
-.nut-lbl{font-size:10px;color:var(--muted);width:36px;flex-shrink:0;}
-.nut-bar-bg{flex:1;height:6px;background:rgba(0,0,0,0.07);border-radius:3px;overflow:hidden;}
-.nut-bar{height:100%;border-radius:3px;transition:width .5s ease;}
-.nut-val{font-size:10px;font-weight:700;color:var(--dark);width:36px;text-align:right;flex-shrink:0;}
-.nut-cal{color:var(--amb);background:rgba(196,154,48,0.15);border-radius:8px;padding:3px 8px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:6px;}
+.ing-section{margin-bottom:10px;}
+.ing-ttl{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1px;margin-bottom:6px;}
+.ing-chips{display:flex;flex-wrap:wrap;gap:4px;}
+.ing-chip{font-size:11px;background:#F5EFE8;border:1px solid rgba(154,123,60,0.18);color:#7A5E30;border-radius:6px;padding:3px 8px;white-space:nowrap;}
+.card-divider{height:1px;background:var(--bdr);margin:8px 0 10px;}
+.card-btn-row{display:flex;gap:6px;}
+.btn-recipe{flex:1;padding:10px;background:var(--dark);color:#F7F0DC;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Noto Sans JP',sans-serif;touch-action:manipulation;}
+.btn-fav-card{padding:10px 14px;border:1.5px solid var(--bdr);background:transparent;border-radius:10px;font-size:16px;cursor:pointer;touch-action:manipulation;}
+/* legacy compat */
+.nut-row{display:none;}
+.nut-lbl{font-size:10px;color:var(--muted);}
+.nut-bar-bg{height:6px;background:rgba(0,0,0,0.07);border-radius:3px;overflow:hidden;}
+.nut-bar{height:100%;border-radius:3px;}
+.nut-val{font-size:10px;font-weight:700;color:var(--dark);}
 /* 1日合計栄養 */
 .daily-nut{background:var(--sur);border:1px solid var(--bdr);border-radius:14px;padding:12px 14px;margin-bottom:10px;}
 .dn-ttl{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;font-style:italic;margin-bottom:10px;color:var(--dark);}
@@ -91,11 +109,11 @@ body{font-family:'Noto Sans JP',sans-serif;background:var(--bg);color:var(--dark
 .dn-bar-bg{width:100%;height:8px;background:rgba(0,0,0,0.07);border-radius:4px;overflow:hidden;margin-top:4px;}
 .dn-bar{height:100%;border-radius:4px;}
 .cal-c{color:#E8832A;}.pro-c{color:#3A7FBF;}.fat-c{color:#C45A5A;}.car-c{color:#5A9A5A;}
-.rtog{background:none;border:1px solid var(--bdr);color:var(--muted);border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:7px;touch-action:manipulation;}
-.rsteps{display:none;margin-top:7px;padding-top:7px;border-top:1px solid var(--bdr);}
+.rtog{background:none;border:1px solid var(--bdr);color:var(--muted);border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:7px;touch-action:manipulation;display:none;}
+.rsteps{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--bdr);}
 .rsteps.open{display:block;}
 .step{display:flex;gap:7px;margin-bottom:7px;align-items:flex-start;}
-.snum{width:17px;height:17px;border-radius:50%;background:var(--dark);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.snum{width:18px;height:18px;border-radius:50%;background:var(--dark);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
 .stxt{font-size:11px;line-height:1.6;color:#333;}
 .sblk{background:var(--sur);border:1px solid var(--bdr);border-radius:14px;margin-bottom:10px;overflow:hidden;}
 .sbhdr{background:var(--sl);padding:9px 12px;}
@@ -594,17 +612,40 @@ function renderResult(d){
     const steps=(m.s||[]).map((st,j)=>`<div class="step"><div class="snum">${j+1}</div><div class="stxt">${st}</div></div>`).join('');
     const usedChips=[...new Set([...m.r,...(m.o||[])])].filter(id=>fridge[id]).map(id=>{const it=getItem(id);return it?`<span class="chip cm">${it.e} ${it.n}</span>`:''}).join('');
     const nt=m.nut||{};
-    const ingHtml=m.ing?`<div style="margin:8px 0 4px;padding:8px 10px;background:var(--bg);border-radius:8px;border:1px solid var(--bdr);">
-      <div style="font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1px;margin-bottom:5px;">📝 材料（2人前）</div>
-      <div style="display:flex;flex-wrap:wrap;gap:3px;">${m.ing.split('・').map(i=>`<span style="font-size:11px;background:var(--sur);border:1px solid var(--bdr);border-radius:6px;padding:2px 7px;white-space:nowrap;">${i}</span>`).join('')}</div>
-    </div>`:'';
-    const nutHtml=`<div style="margin-top:8px">
+    const isDiet=dietMode&&nt.cal>0;
+    const accentColor={朝食:'var(--amb)',昼食:'var(--sage)',夕食:'var(--plum)'}[m.t]||'#888';
+    const ingHtml=m.ing?`<div class="ing-section"><div class="ing-ttl">📝 材料（2人前）</div><div class="ing-chips">${m.ing.split('・').map(x=>`<span class="ing-chip">${x}</span>`).join('')}</div></div>`:'';
+    const nutHtml=`<div class="cal-row-card">
       <span class="nut-cal">🔥 ${nt.cal||0} kcal</span>
-      <div class="nut-row"><span class="nut-lbl">🥩 P</span>${nutBar(nt.p||0,60,'#3A7FBF')}<span class="nut-val">${nt.p||0}g</span></div>
-      <div class="nut-row"><span class="nut-lbl">🫙 F</span>${nutBar(nt.f||0,60,'#C45A5A')}<span class="nut-val">${nt.f||0}g</span></div>
-      <div class="nut-row"><span class="nut-lbl">🌾 C</span>${nutBar(nt.c||0,250,'#5A9A5A')}<span class="nut-val">${nt.c||0}g</span></div>
+      ${isDiet?'<span class="diet-badge-card">🥗 ダイエット向き</span>':''}
+    </div>
+    <div class="nut-grid-card">
+      <div class="nut-item-card"><div class="nut-val-card" style="color:#3A7FBF">${nt.p||0}g</div><div class="nut-lbl-card">たんぱく質</div><div class="nut-mini-bar"><div class="nut-mini-fill" style="width:${Math.min(100,Math.round((nt.p||0)/60*100))}%;background:#3A7FBF"></div></div></div>
+      <div class="nut-item-card"><div class="nut-val-card" style="color:#C45A5A">${nt.f||0}g</div><div class="nut-lbl-card">脂質</div><div class="nut-mini-bar"><div class="nut-mini-fill" style="width:${Math.min(100,Math.round((nt.f||0)/60*100))}%;background:#C45A5A"></div></div></div>
+      <div class="nut-item-card"><div class="nut-val-card" style="color:#5A9A5A">${nt.c||0}g</div><div class="nut-lbl-card">炭水化物</div><div class="nut-mini-bar"><div class="nut-mini-fill" style="width:${Math.min(100,Math.round((nt.c||0)/250*100))}%;background:#5A9A5A"></div></div></div>
     </div>`;
-    return `<div class="mc"><div class="mc-hdr h-${m.t}"><div class="mc-left"><span class="mbdg b-${m.t}">${mi[m.t]} ${m.t}</span><span class="mname">${m.n}</span></div><button class="fb" id="fm${i}" onclick="tfm(${i})">${isFav?'❤️':'🤍'}</button></div><div class="mcb"><p class="mdsc">${m.d}</p><div class="chips">${usedChips}</div>${ingHtml}${nutHtml}${steps?`<button class="rtog" id="rtb${rid}" onclick="tog('${rid}','rtb${rid}','📋 作り方を見る','▲ 閉じる')">📋 作り方を見る</button><div class="rsteps" id="${rid}">${steps}</div>`:''}</div></div>`;
+    return `<div class="mc">
+      <div class="mc-accent a-${m.t}"></div>
+      <div class="mc-hdr h-${m.t}">
+        <div class="mc-left">
+          <span class="mbdg b-${m.t}">${mi[m.t]} ${m.t}</span>
+          <div class="mname">${m.n}</div>
+          <p class="mdsc">${m.d}</p>
+        </div>
+        <button class="fb" id="fm${i}" onclick="tfm(${i})">${isFav?'❤️':'🤍'}</button>
+      </div>
+      <div class="mcb">
+        ${usedChips?`<div class="chips">${usedChips}</div>`:''}
+        ${nutHtml}
+        ${ingHtml}
+        <div class="card-divider"></div>
+        <div class="card-btn-row">
+          <button class="btn-recipe" id="rtb${rid}" onclick="tog('${rid}','rtb${rid}','📋 作り方を見る','▲ 閉じる')">📋 作り方を見る</button>
+          <button class="btn-fav-card" onclick="tfm(${i})">${isFav?'❤️':'🤍'}</button>
+        </div>
+        <div class="rsteps" id="${rid}">${steps}</div>
+      </div>
+    </div>`;
   }).join('')
   +(d.nm&&d.nm.length?`<div class="nomatch"><p>🔍 <b>${d.nm.join('・')}</b>に合うレシピが見つかりませんでした。食材を増やすと提案が増えます！</p></div>`:'')
   +dailyNut
